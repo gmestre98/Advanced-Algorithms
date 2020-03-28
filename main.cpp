@@ -9,6 +9,6 @@ int main() {
 	adj_matrix -> resize(3);
 	adj_matrix -> print();
 	
-	free(adj_matrix);
+	delete adj_matrix;
 	return 0;
 }
