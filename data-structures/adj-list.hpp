@@ -3,36 +3,16 @@
 
 #include <stdlib.h>
 #include <stdexcept>
-#include <iostream>
-#include <vector>
-#include <list>
+#include "graph.hpp"
+#include "intlist.hpp"
 
-class edge{
-    int _pair, _weight;
-
+class AdjList : public Graph{
+    intlist* _adjlist = NULL;
 public:
-    edge(int pair, int weight){
-        _pair = pair;
-        _weight = weight;
-    }
-};
-
-
-class AdjList {
-    std::vector <std::list<edge> > _adjlist;
-    int _size = 0;
-public:
-
-    AdjList();
-    AdjList(int size) throw();
-    void addEdge(int i, int j, int w) const throw ();
-    void resize(int new_size) throw ();
-    void print();
-
+    AdjList(int size);
+    void AddEdge(int i, int j) throw ();
+    void Print();
+    void SpecificPrint(int vertex);
     ~AdjList();
 };
-
-
-
-
-#endif
+#endif    
