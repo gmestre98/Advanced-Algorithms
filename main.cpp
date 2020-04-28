@@ -1,14 +1,28 @@
 #include "data-structures/adj-matrix.hpp"
+#include "data-structures/adj-list.hpp"
+#include "data-structures/csr.hpp"
 
 int main() {
-	AdjMatrix* adj_matrix = new AdjMatrix(2);
 
-	adj_matrix -> addEdge(1, 0);
+	AdjList* Paul = new AdjList(3);
+	Paul->AddEdge(1, 0);
+	Paul->AddEdge(0, 2);
+	Paul->Print();
+
+	delete Paul;
+
+	AdjMatrix* adj_matrix = new AdjMatrix(6);
 	adj_matrix -> print();
-
-	adj_matrix -> resize(3);
+	adj_matrix -> addEdge(0, 2);
+	adj_matrix -> addEdge(0, 3);
+	adj_matrix -> addEdge(1, 4);
+	adj_matrix -> addEdge(1, 5);
+	adj_matrix -> addEdge(1, 2);
+	adj_matrix -> addEdge(3, 4);
 	adj_matrix -> print();
 	
-	delete adj_matrix;
-	return 0;
+	CSRGraph* csr = new CSRGraph(6);
+	csr -> ReadGraph(adj_matrix);
+	csr -> Print();
+	delete csr;
 }

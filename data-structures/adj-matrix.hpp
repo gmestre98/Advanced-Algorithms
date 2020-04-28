@@ -4,18 +4,18 @@
 #include <stdlib.h>
 #include <stdexcept>
 #include <iostream>
+#include "graph.hpp"
 
 //template<typename T>
-class AdjMatrix {
-	bool* _matrix = nullptr;
-	int   _size   = 0;
+class AdjMatrix : public Graph {
+	bool* _matrix;
 public:
 	AdjMatrix();
 	AdjMatrix(int size) throw ();
 
-	void addEdge(int i, int j) const throw ();
-	void resize(int new_size) throw ();
+	void addEdge(int i, int j) throw ();
 	void print();
+	bool* getm();
 
 	~AdjMatrix();
 };

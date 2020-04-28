@@ -1,16 +1,20 @@
 #include "adj-matrix.hpp"
 
-AdjMatrix::AdjMatrix() : _size(0) {
+
+AdjMatrix::AdjMatrix() {
 	_matrix = nullptr;
+	setV(0);
+	setE(0);
 }
 
-AdjMatrix::AdjMatrix(int size) throw () : _size(size) {
-	size_t n = _size * sizeof(bool);
+AdjMatrix::AdjMatrix(int size) throw () {
+	size_t n = size*size;
+	setV(size);
+	setE(0);
 
-	_matrix = (bool*) malloc(n * n);
-
+	_matrix = (bool*)malloc(n*sizeof(bool));
 	if (_matrix != nullptr) {
-		for (int i = 0; i < (_size * _size); ++i) {
+		for (int i = 0; i < (getV() * getV()); ++i) {
 			_matrix[i] = false;
 		}
 	} else {
@@ -18,56 +22,36 @@ AdjMatrix::AdjMatrix(int size) throw () : _size(size) {
 	}
 }
 
-void AdjMatrix::addEdge(int i, int j) const throw () {
+void AdjMatrix::addEdge(int i, int j) throw () {
 	if (i < 0 || j < 0) {
 		throw std::out_of_range("indexes below 0");
 	}
 
-	if (i >= _size || j >= _size ) {
+	if (i >= getV() || j >= getV() ) {
 		throw std::out_of_range("indexes out of range");
 	}
 
-	_matrix[i * _size + j] = true;
-	_matrix[j * _size + i] = true;
-}
-
-void AdjMatrix::resize(int new_size) throw () {
-	if (new_size <= _size) {
-		throw std::invalid_argument("new size must be bigger than the previous size");
-	}
-
-	size_t n = new_size * sizeof(bool);
-	bool* new_matrix = (bool*) malloc(n * n);
-
-	for (int i = 0; i < (new_size * new_size); ++i) {
-		new_matrix[i] = false;
-	}
-
-	for (int i = 0; i < _size; ++i) {
-		for (int j = 0; j < _size; ++j) {
-			new_matrix[i * new_size + j] = _matrix[i * _size + j];
-		}
-	}
-
-	bool* old_matrix = _matrix;
-	_matrix = new_matrix;
-	new_matrix = old_matrix;
-	
-	free(new_matrix);
-
-	_size = new_size;
+	_matrix[i * getV() + j] = true;
+	_matrix[j * getV() + i] = true;
+	incE();
 }
 
 void AdjMatrix::print() {
-	for (int i = 0; i < _size; ++i) {
-		for (int j = 0; j < _size; ++j) {
-			std::cout << _matrix[i * _size + j] << " ";
+	for (int i = 0; i < getV(); ++i) {
+		for (int j = 0; j < getV(); ++j) {
+			std::cout << _matrix[i * getV() + j] << " ";
 		}
 		std::cout << std::endl;
 	}
 }
 
+bool* AdjMatrix::getm(){
+	return _matrix;
+}
+
+
 AdjMatrix::~AdjMatrix() {
-	free(_matrix);
-	delete this;
+	delete[] _matrix;
+	setV(0);
+	setE(0);
 }
