@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<generator>
+	<random name="ranged_based">
+		<nodes>
+			<range>
+				<begin>5</begin>
+				<end>10</end>
+			</range>
+		</nodes>
+		<probabilities>
+			<range>
+				<begin>0.0</begin>
+				<end>0.5</end>
+				<step>0.1</step>
+			</range>
+		</probabilities>
+	</random>
+	<random name="fixed_values">
+		<nodes>
+			<node>10</node>
+		</nodes>
+		<probabilities>
+			<probability>0.5</probability>
+		</probabilities>
+	</random>
+</generator>
