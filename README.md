@@ -42,7 +42,7 @@ The first line of the generated file is the graph's number of nodes.
 
 Each of the following lines corresponde to an egde, from ``u`` to ``v``, separeted by a space.
 
-This file uses '\n' as end of line character.
+This file uses LF as end of line sequence.
 
 ## Execution
 
