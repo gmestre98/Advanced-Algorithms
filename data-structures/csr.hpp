@@ -5,11 +5,11 @@
 #include "adj-matrix.hpp"
 
 class CSRGraph : public Graph{
-    int* ones;
-    int* offset;
+    int* _ones;
+    int* _offset;
 public:
-    CSRGraph(int size);
-    void ReadGraph(AdjMatrix* adjm);
+    CSRGraph(int size) noexcept(false);
+    void ReadGraph(AdjMatrix* adjm) noexcept(false);
     void Print();
     ~CSRGraph();
 };

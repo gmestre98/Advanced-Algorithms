@@ -7,10 +7,10 @@
 #include "intlist.hpp"
 
 class AdjList : public Graph{
-    intlist* _adjlist = NULL;
+    IntList* _adjlist = nullptr;
 public:
-    AdjList(int size);
-    void AddEdge(int i, int j) throw ();
+    AdjList(int size)  noexcept (false);
+    void addEdge(int i, int j) noexcept (false);
     void Print();
     void SpecificPrint(int vertex);
     ~AdjList();

@@ -1,23 +1,24 @@
 #ifndef INTLIST_H
 #define INTLIST_H
 
-class intlist{
+class IntList{
 private:
     struct node{
         int value;
         node* next;
     };
 
-    struct node* head;
-    struct node* curr;
-    struct node* aux;
+    struct node* _head;
+    struct node* _curr;
+    struct node* _aux;
+
 public:
 
-    intlist();
-    int AddNode(int _new);
-    int DeleteNode(int _old);
-    void PrintList();
-    ~intlist();
+    IntList();
+    void addNode(int newNode) noexcept(false);
+    int deleteNode(int old);
+    void printList();
+    ~IntList();
 };
 
 #endif

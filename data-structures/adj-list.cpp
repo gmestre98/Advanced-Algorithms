@@ -1,20 +1,22 @@
 #include "adj-list.hpp"
+#include <exception>
+#include <stdexcept>
 
-AdjList::AdjList(int size){
+AdjList::AdjList(int size) noexcept(false) {
 	setV(size);
 	setE(0);
 	if(size <= 0){
-		std::cout << "You cannot create a graph without vertexes ;)\n";
-		exit(-1);
+		throw std::invalid_argument("You cannot create a graph without vertexes ;)");
 	}
-	_adjlist = new intlist[size];
-	if(_adjlist == NULL){
-		std::cout << "Allocation error!\n";
-		exit(-1);
+
+	_adjlist = new IntList[size];
+
+	if(_adjlist == nullptr){
+		throw std::bad_alloc();
 	}
 }
 
-void AdjList::AddEdge(int i, int j) throw () {
+void AdjList::addEdge(int i, int j) noexcept (false) {
  	if (i < 0 || j < 0) {
 		throw std::out_of_range("indexes below 0");
 	}
@@ -23,23 +25,24 @@ void AdjList::AddEdge(int i, int j) throw () {
 		throw std::out_of_range("indexes out of range");
 	}
 	if(i == j){
-		std::cout << "A vertex can't have an edge with itself\n";
-		return;
+		throw std::logic_error("A vertex can't have an edge with itself");
 	}
 	
 	// A linha de baixo dá borrada, nao entendo porque
-	if(_adjlist[i].AddNode(j) == 1 && _adjlist[j].AddNode(i) == 1)
-		std::cout << "You added a node!\n";
-	else
-		std:: cout << "That node already existed, why are you adding it? You dumb?\n";
+	try {
+		_adjlist[i].addNode(j);
+		_adjlist[j].addNode(i);
+		std::cout << "You added a node!" << std::endl;
+	} catch (std::exception& err) {
+		std::cerr << err.what() << std::endl;
+	}
 }
 
 void AdjList::Print() {
-
 	std::cout << "Graph Composition\n\n";
 	for(int i = 0; i < getV(); ++i){
 		std::cout << "Vertex: " << i << "has edges with vertexes:\n";
-		_adjlist[i].PrintList();
+		_adjlist[i].printList();
 		std::cout << "\n";
 	}
 }
@@ -47,7 +50,7 @@ void AdjList::Print() {
 void AdjList::SpecificPrint(int vertex) {
 	if(vertex > -1 && vertex < getV()){
 		std::cout << "Vertex: " << vertex << "has edges with vertexes:\n";
-		_adjlist[vertex].PrintList();
+		_adjlist[vertex].printList();
 		std::cout << "\n";
 	}
 	else

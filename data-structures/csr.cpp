@@ -1,33 +1,36 @@
 #include "csr.hpp"
 
-CSRGraph::CSRGraph(int size){
+CSRGraph::CSRGraph(int size) noexcept(false) {
     setV(size);
     setE(0);
+
 	if(size <= 0){
-		std::cout << "You cannot create a graph without vertexes ;)\n";
-		exit(-1);
+		throw std::invalid_argument("You cannot create a graph without vertexes ;)");
 	}
-    offset = (int*)malloc((size+1)*sizeof(int));
-	if(offset == NULL){
-		std::cout << "Allocation error!\n";
-		exit(-1);
+
+    _offset = (int*)malloc((size+1)*sizeof(int));
+
+	if(_offset == nullptr){
+		throw std::bad_alloc();
 	}
 }
 
-void CSRGraph::ReadGraph(AdjMatrix* adjm){
+void CSRGraph::ReadGraph(AdjMatrix* adjm) noexcept(false) {
     int mrows = getV();
     int mcols = getV();
-    int length;
     int count=0;
     bool* m = adjm->getm();
 
-    if(m == NULL){
-        std::cout << "The matrix is pointing to null\n";
-        exit(-1);
+    if(m == nullptr){
+        throw std::range_error("The matrix is pointing to nullptr");
     }
+
     if(adjm->getV() != getV()){
-        std::cout << "That is not a correct matrix\n";
-        exit(-1);
+        throw std::range_error("That is not a correct matrix");
+    }
+
+    if (_ones != nullptr) {
+        throw std::runtime_error("CSR is already set!");
     }
 
     // Getting the total number of edges
@@ -37,32 +40,33 @@ void CSRGraph::ReadGraph(AdjMatrix* adjm){
                 count = count + 1;
         }
     }
+
     setE(count);
-    ones = (int*)malloc(count*sizeof(int));
-	if(ones == NULL){
-		std::cout << "Allocation error!\n";
-		exit(-1);
+    _ones = (int*)malloc(count*sizeof(int));
+
+	if(_ones == nullptr){
+		throw std::bad_alloc();
 	}
  
     count = 0;
     for(int i=0; i < mrows; ++i){
-        offset[i] = count;
+        _offset[i] = count;
         for(int j=0; j < mcols; ++j){
             if(m[i*mrows + j] == true){
-                ones[count] = j;
+                _ones[count] = j;
                 count = count + 1;
             }
         }
     }
-    offset[getV()] = count;
+    _offset[getV()] = count;
 }
 
 void CSRGraph::Print(){
 	for (int i = 0; i < getV(); ++i) {
         int count = 0;
 		for (int j = 0; j < getV(); ++j) {
-            if(count + offset[i] < getE()  &&  ones[count+offset[i]] == j  && 
-                (count + offset[i]) < offset[i+1]){
+            if(count + _offset[i] < getE()  &&  _ones[count+_offset[i]] == j  && 
+                (count + _offset[i]) < _offset[i+1]){
                 std::cout << "1 ";
                 count = count + 1;
             }
@@ -74,8 +78,8 @@ void CSRGraph::Print(){
 }
 
 CSRGraph::~CSRGraph(){
-    free(ones);
-    free(offset);
+    free(_ones);
+    free(_offset);
     setV(0);
     setE(0);
 }

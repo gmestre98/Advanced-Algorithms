@@ -1,78 +1,74 @@
 #include <cstdlib>
 #include <iostream>
-
+#include <exception>
+#include <stdexcept>
 #include "intlist.hpp"
 
-intlist::intlist() {
-    head = NULL;
-    curr = NULL;
-    aux = NULL;
-}
+IntList::IntList() : _head(nullptr), _curr(nullptr), _aux(nullptr) { }
 
-int intlist::AddNode(int _new) {
+void IntList::addNode(int newNode) noexcept(false) {
     struct node* a = new node;
-    a->next = NULL;
-    a->value = _new;
+    a->next = nullptr;
+    a->value = newNode;
 
-    if(head != NULL){
-        curr = head;
-        while(curr->next != NULL && curr->value != _new)
-            curr = curr->next;
-        if(curr->value != _new){
-            curr->next = a;
-            return 1;
+    if(_head != nullptr){
+        _curr = _head;
+        while(_curr->next != nullptr && _curr->value != newNode)
+            _curr = _curr->next;
+        if(_curr->value != newNode){
+            _curr->next = a;
         }
         else{
-            return 0;
+            throw std::domain_error("That node already existed, why are you adding it? You dumb?");
         }
     }
     else{
-        head = a;
-        return 1;
+        _head = a;
     }
 }
 
-int intlist::DeleteNode(int _old) {
-    struct node* a = NULL;
-    curr = head;
-    aux = head;
-    while(curr != NULL && curr->value != _old){
-        aux = curr;
-        curr = curr->next;
+int IntList::deleteNode(int old) {
+    struct node* a = nullptr;
+    _curr = _head;
+    _aux = _head;
+    while(_curr != nullptr && _curr->value != old){
+        _aux = _curr;
+        _curr = _curr->next;
     }
-    if(curr == NULL){
+
+    if(_curr == nullptr){
         free(a);
         return 0;
     }
     else{
-        a = curr;
-        curr = curr->next;
-        aux->next = curr;
-        if(a == head){
-            head = head->next;
-            aux = NULL;
+        a = _curr;
+        _curr = _curr->next;
+        _aux->next = _curr;
+        if(a == _head){
+            _head = _head->next;
+            _aux = nullptr;
         }
         delete a;
         return 1;
     }
 }
 
-void intlist::PrintList() {
-    curr = head;
+void IntList::printList() {
+    _curr = _head;
     std::cout << "(";
-    while(curr != NULL){
-        std::cout << curr->value << ",";
-        curr = curr->next;
+    while(_curr != nullptr){
+        std::cout << _curr->value << ",";
+        _curr = _curr->next;
     }
     std::cout << ")";
 }
 
-intlist::~intlist() {
-    curr = head;
-    while(curr != NULL){
-        aux = curr->next;
-        delete curr;
-        curr = aux;
+IntList::~IntList() {
+    _curr = _head;
+    while(_curr != nullptr){
+        _aux = _curr->next;
+        delete _curr;
+        _curr = _aux;
     }
-    head = NULL;
+    _head = nullptr;
 }
