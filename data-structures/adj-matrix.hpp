@@ -16,7 +16,8 @@ public:
 	void addEdge(int i, int j) throw ();
 	void print();
 	bool* getm();
-
+	int* copymtoint();
+	int isAdjacent(int i, int j);
 	~AdjMatrix();
 };
 

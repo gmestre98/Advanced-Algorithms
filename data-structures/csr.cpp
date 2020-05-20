@@ -3,6 +3,7 @@
 CSRGraph::CSRGraph(int size) noexcept(false) {
     setV(size);
     setE(0);
+    _ones = nullptr;
 
 	if(size <= 0){
 		throw std::invalid_argument("You cannot create a graph without vertexes ;)");
