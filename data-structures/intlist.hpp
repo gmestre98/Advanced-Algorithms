@@ -17,6 +17,9 @@ public:
     IntList();
     void addNode(int newNode) noexcept(false);
     int deleteNode(int old);
+    void deleteAllNodes();
+    int existsNode(int value);
+    void mergeLists(IntList* updated);
     void printList();
     ~IntList();
 };

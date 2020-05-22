@@ -19,7 +19,7 @@ void IntList::addNode(int newNode) noexcept(false) {
             _curr->next = a;
         }
         else{
-            throw std::domain_error("That node already existed, why are you adding it? You dumb?");
+            //throw std::domain_error("That node already existed, why are you adding it? You dumb?");
         }
     }
     else{
@@ -50,6 +50,35 @@ int IntList::deleteNode(int old) {
         }
         delete a;
         return 1;
+    }
+}
+
+void IntList::deleteAllNodes(){
+    _curr = _head;
+    while(_curr != nullptr){
+        _aux = _curr->next;
+        delete _curr;
+        _curr = _aux;
+    }
+    _head = nullptr;
+
+}
+
+int IntList::existsNode(int value){
+    _curr = _head;
+    while(_curr != nullptr){
+        if(_curr->value == value)
+            return 1;
+        _curr = _curr->next;
+    }
+    return 0;
+}
+
+void IntList::mergeLists(IntList* updated){
+    _curr = _head;
+    while(_curr != nullptr){
+        updated->addNode(_curr->value);
+        _curr = _curr->next;
     }
 }
 

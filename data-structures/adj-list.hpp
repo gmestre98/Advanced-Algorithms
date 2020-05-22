@@ -1,3 +1,17 @@
+/******************************************************************************
+ *
+ * File Name: adj-list.hpp
+ * Author:    Gonçalo Mestre & Pedro Reis
+ * Last Modification: 21 May 2020
+ *
+ * NAME
+ *  adj-list - the creation of the class for the adjacency list
+ *
+ * DESCRIPTION
+ *  This file contains the declaration of the class of the adjacency list,
+ * specifying what parts of this class should be public or private
+ *
+ *****************************************************************************/
 #ifndef ADJ_LIST_H
 #define ADJ_LIST_H
 
@@ -6,6 +20,16 @@
 #include "graph.hpp"
 #include "intlist.hpp"
 
+
+/**
+ * Implementation of an adjacency list
+ *
+ * The adjacency list is implemented for graph representation, using
+ * O(V + E) space,
+ * O(degree(V)) for worst case on  verifying an edge
+ * O(degree(V)) edge insertion
+ *
+ */
 class AdjList : public Graph{
     IntList* _adjlist = nullptr;
 public:
@@ -13,6 +37,8 @@ public:
     void addEdge(int i, int j) noexcept (false);
     void Print();
     void SpecificPrint(int vertex);
+    void copyadjlist(IntList* adjl);
+    int isAdjacent(int, int);
     ~AdjList();
 };
 #endif    
