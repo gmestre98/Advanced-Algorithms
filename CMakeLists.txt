@@ -10,6 +10,7 @@ project(Project1)
 
 add_subdirectory(data-structures)
 add_subdirectory(graph-generator)
+add_subdirectory(algorithms)
 
 add_executable(Project1 main.cpp)
-target_link_libraries(Project1 data-structures-lib)
+target_link_libraries(Project1 data-structures-lib algorithms-lib graph-generator-lib)

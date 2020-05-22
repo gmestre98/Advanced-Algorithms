@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "karger.hpp"
 
 using namespace std;
@@ -36,7 +38,7 @@ void printNestedList(list<list<int> > nested_list)
 } 
 
 
-int contractadjm(AdjMatrix* adj_matrix){
+int contract(AdjMatrix* adj_matrix){
     int i, j, first, second;
     int vert = adj_matrix->getV();
     int size = vert;
@@ -125,26 +127,14 @@ void mergevertadjm(int* mat, std::list<std::list<int> > *aux, int min, int max, 
     (*aux).erase(it2);
 }
 
-int logarithm(int n){
-    int i = 1;
-    int ret = 0;
-    while(i < n){
-        i = i*2;
-        ret = ret + 1;
-    }
-    return ret;
-}
-
 // N dara so para mandar tudo la para dentro e depois seleciono que contract quero usar?
-int kargeradjm(AdjMatrix* adj_matrix){
+int karger(AdjMatrix* adj_matrix){
     int n = adj_matrix->getV();
-    long long int nruns = n*n*logarithm(n);
-    int i = 0;
-    int result = 0;
-    int ret;
+    long long int nruns = n*n* (int) log2((double) n);
+    int i = 0, result = 0, ret;
     while(i < nruns){
         i = i + 1;
-        result = contractadjm(adj_matrix);
+        result = contract(adj_matrix);
         if(i==1 || result < ret)
             ret = result;
         std::cout << "ret is on: " << ret << "\n";

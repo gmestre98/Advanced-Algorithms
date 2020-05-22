@@ -14,6 +14,6 @@ void printNestedList(std::list<std::list<int> >);
 int contractadjm(AdjMatrix*);
 void mergevertadjm(int*, std::list<std::list<int> >*, int, int, int, int, int, int);
 int logarithm(int);
-int kargeradjm(AdjMatrix*);
+int karger(AdjMatrix*);
 
 #endif

@@ -17,7 +17,7 @@ public:
 	void print();
 	bool* getm();
 	int* copymtoint();
-	int isAdjacent(int i, int j);
+	bool isAdjacent(int i, int j);
 	~AdjMatrix();
 };
 

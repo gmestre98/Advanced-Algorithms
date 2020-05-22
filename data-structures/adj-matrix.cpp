@@ -69,9 +69,8 @@ int* AdjMatrix::copymtoint(){
 	return ret;
 }
 
-int AdjMatrix::isAdjacent(int i, int j){
-	if(_matrix[i * getV() + j] == true)
-		return 1;	
+bool AdjMatrix::isAdjacent(int i, int j){
+	return (_matrix[i * getV() + j] == true);
 }
 
 
