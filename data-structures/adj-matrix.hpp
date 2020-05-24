@@ -38,7 +38,8 @@ public:
 	void addEdge(int i, int j) throw ();
 	void print();
 	bool* getm();
-	int* copymtoint();
+	void Copyadjm(AdjMatrix* old);
+	void ContractEdge(int i, int j);
 	int isAdjacent(int i, int j);
 	~AdjMatrix();
 };

@@ -40,7 +40,7 @@ AdjMatrix::AdjMatrix(int size) throw () {
 		for (int i = 0; i < (getV() * getV()); ++i) {
 			_matrix[i] = false;
 		}
-	} else {
+	}else {
 		throw std::bad_alloc();
 	}
 }
@@ -85,28 +85,58 @@ bool* AdjMatrix::getm(){
 }
 
 /**
- *	AdjMatrix::copymtoint: copies the matrix to an integer one and
- * returns it
+ *	AdjMatrix::Copyadjm: Copies an old adjacency matrix to a new object
+ *
+ *	\param old adjm graph being copied
  */
-int* AdjMatrix::copymtoint(){
-	size_t n = getV()*getV();
-	int* ret;
-	ret = (int*)malloc(n*sizeof(int));
-	if(ret != nullptr){
-		for(int i=0; i < getV(); ++i){
-			for(int j=0; j < getV(); ++j){
-				if(_matrix[i * getV() + j] == true)
-					ret[i * getV() + j] = 1;
-				else
-					ret[i * getV() + j] = 0;
-			}
+void AdjMatrix::Copyadjm(AdjMatrix* old) noexcept(false){
+	if(old->getm() == nullptr){
+		throw std::runtime_error("Old Adjacency matrix is not defined");
+	}
+	if(old->getV() != getV()){
+		throw std::range_error("Graphs dimensions do not agree");
+	}
+	setE(old->getE());
+	for(int i=0; i < getV(); ++i){
+		for(int j=0; j < getV(); ++j){
+			if(old->isAdjacent(i, j) == 1)
+				_matrix[i * getV() + j] = true;
 		}
 	}
-	else{
-		throw std::bad_alloc();
-	}
-	return ret;
 }
+
+/**
+ *	AdjMatrix::ContractEdge: Contracts an edge and merges the two vertices being the
+ * merged one represented on the line and column of the original vertex with the lowest
+ * index
+ *
+ *	\param i first node of the edge
+ *	\param j second node of the edge
+ */
+void AdjMatrix::ContractEdge(int i, int j){
+	int min, max;
+	if(i > j){
+		min = j;
+		max = i;
+	}
+	else{
+		min = i;
+		max = j;
+	}
+	_matrix[i * getV() + j] = false;
+	_matrix[i * getV() + i] = false;
+	_matrix[j * getV() + i] = false;
+	_matrix[j * getV() + j] = false;
+	for(int a=0; a < getV(); ++a){
+		if(_matrix[max * getV() + a] == true)
+			_matrix[min * getV() + a] = true;
+		_matrix[max * getV() + a] = false;
+		if(_matrix[a * getV() + max] == true)
+			_matrix[a * getV() + min] = true;
+		_matrix[a * getV() + max] = false;
+	}
+}
+
 
 /**
  *	AdjMatrix::isAdjacent: verifies if two nodes are adjacent

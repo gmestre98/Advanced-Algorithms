@@ -104,6 +104,13 @@ int CSRGraph::isAdjacent(int i, int j) noexcept(false){
     return 0;
 }
 
+/**
+ *	AdjList::findAdjacent: verifies if any of the vertices in a given list
+ * are adjacent with the vertex given
+ *
+ *	\param i vertex given
+ *	\param j list of vertices
+ */
 int CSRGraph::findAdjacent(int i, std::list<int>& j) noexcept(false){
     std::list<int>::iterator it;
 
@@ -179,6 +186,18 @@ CSRGraph::~CSRGraph(){
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+///// FUNÇOES QUE DEPOIS TIVE DE CAGAR, PODEM SER UTEIS, ANTES DA ENTREGA APAGAMOS
 
 
 

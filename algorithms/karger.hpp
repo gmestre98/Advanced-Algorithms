@@ -25,13 +25,20 @@
 #include "../data-structures/adj-list.hpp"
 #include "../data-structures/csr.hpp"
 
-void printNestedList(std::list<std::list<int> >);
-int contractadjm(AdjMatrix*);
-void mergevertadjm(int*, std::list<std::list<int> >*, int, int, int, int, int, int);
+void printNestedList(std::list<std::list<int>>);
 int logarithm(int);
+void createauxlist(int);
+void generatetworandom(int*, int*, int);
+std::list<int>& getlist(int j);
+void joinsets(int, int);
+int countedgescsr(CSRGraph*);
+int contractcsr(CSRGraph*);
+int kargercsr(CSRGraph*);
+int countedgesadjm(AdjMatrix*);
+int contractadjm(AdjMatrix*);
 int kargeradjm(AdjMatrix*);
+int countedgesadjl(AdjList*);
 int contractadjl(AdjList*);
-void mergevertadjl(IntList*, std::list<std::list<int> >*, int, int, int, int);
 int kargeradjl(AdjList*);
 
 #endif

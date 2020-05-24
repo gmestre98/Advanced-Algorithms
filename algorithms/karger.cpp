@@ -23,137 +23,38 @@ std::list<std::list<int>> aux;
  * \param nested_list list to print
  * APAGAR ISTO ANTES DA ENTREGA
  */
-using namespace std;
-void printNestedList(list<list<int> > nested_list) 
+void printNestedList(std::list<std::list<int> > nested_list) 
 { 
-    cout << "[\n";
+    std::cout << "[\n";
   
     // nested_list`s iterator(same type as nested_list) 
     // to iterate the nested_list 
-    list<list<int> >::iterator nested_list_itr; 
+    std::list<std::list<int> >::iterator nested_list_itr; 
   
     // Print the nested_list 
     for (nested_list_itr = nested_list.begin(); 
          nested_list_itr != nested_list.end(); 
          ++nested_list_itr) { 
   
-        cout << "  ["; 
+        std::cout << "  ["; 
   
         // normal_list`s iterator(same type as temp_list) 
         // to iterate the normal_list 
-        list<int>::iterator single_list_itr; 
+        std::list<int>::iterator single_list_itr; 
   
         // pointer of each list one by one in nested list 
         // as loop goes on 
-        list<int>& single_list_pointer = *nested_list_itr; 
+        std::list<int>& single_list_pointer = *nested_list_itr; 
   
         for (single_list_itr = single_list_pointer.begin(); 
              single_list_itr != single_list_pointer.end(); 
              single_list_itr++) { 
-            cout << " " << *single_list_itr << " "; 
+            std::cout << " " << *single_list_itr << " "; 
         } 
-        cout << "]\n"; 
+        std::cout << "]\n"; 
     } 
-    cout << "]"; 
+    std::cout << "]"; 
 } 
-
-
-/**
- * contractadjm - Implementation of the contraction algorithm for an adjacency matrix
- *
- * \param adj_matrix graph for which the algorithm is being implemented
- */
-int contractadjm(AdjMatrix* adj_matrix){
-    int i, j, first, second;
-    int vert = adj_matrix->getV();
-    int size = vert;
-    int ret = 0;
-    int* mat = adj_matrix->copymtoint();
-    std::list<std::list<int> > aux;
-    std::list<int> single_list;
-    std::list<std::list<int>>::iterator it;
-    for(int a=0; a < size; ++a){
-        single_list.push_back(a);
-        aux.push_back(single_list);
-        single_list.erase(single_list.begin(), single_list.end());
-    }
-    //Finding the minimum cut
-    while(vert > 2){
-        i = rand() % vert;
-        do{
-            j = rand() % vert;
-        }while(j == i);
-        it = aux.begin();
-        advance(it, i);
-        first = *((*it).begin());
-        it = aux.begin();
-        advance(it, j);
-        second = *((*it).begin());
-        if(mat[first * size + second] > 0){
-            mat[first * size + second] = 0;
-            mat[second * size + first] = 0;
-            mergevertadjm(mat, &aux, first, second, size, vert, i, j);
-            vert = vert - 1;
-        }
-    }
-    //Minimum cut size computation
-    std::list<int>::iterator it1, it2;
-    for(it1 = (*(aux.begin())).begin(); it1 != (*(aux.begin())).end(); ++it1){
-        it = aux.begin();
-        advance(it, 1);
-        for(it2 = (*it).begin(); it2 != (*it).end(); ++it2){
-            if(adj_matrix->isAdjacent(*it1, *it2) == 1)
-                ret = ret + 1;
-        }
-        
-    }
-    aux.erase(aux.begin(), aux.end());
-    free(mat);
-    return ret;
-}
-
-/**
- * mergevertadjm: Merges two graphs of a graph represented with an adjacency matrix
- *
- * \param mat matrix representing the graph
- * \param aux auxiliary list representing the obtained sets list
- * \param min first vertex of the edge being contracted, set position on the matrix
- * \param max second vertex of the edge being contracted, set position on the matrix
- * \param size number of vertices of the original graph
- * \param vert number of vertices of the current graph
- * \param i first vertex of the edge being contracted on the current graph
- * \param j second vertex of the edge being contracted on the current graph
- */
-void mergevertadjm(int* mat, std::list<std::list<int> > *aux, int min, int max, int size, int vert, int i, int j){
-    std::list<std::list<int>>::iterator it1;
-    std::list<std::list<int>>::iterator it2;
-    int ajuda;
-
-    if(i > j){
-        ajuda = i;
-        i = j;
-        j = ajuda;
-    }
-    if(min > max){
-        ajuda = min;
-        min = max;
-        max = ajuda;
-    }
-    for(int k=0; k < size; ++k){
-        mat[min * size + k] = mat[min * size + k] + mat[max * size + k];
-        mat[max * size + k] = 0;
-    }
-    for(int k=0; k < size; ++k){
-        mat[k * size + min] = mat[k * size + min] + mat[k * size + max];
-        mat[k * size + max] = 0;
-    }
-    it1 = (*aux).begin();
-    advance(it1, i);
-    it2 = (*aux).begin();
-    advance(it2, j);
-    (*it1).merge(*it2);
-    (*aux).erase(it2);
-}
 
 /**
  * logarithm: Returns the rounded up value of a number's logarithm
@@ -171,11 +72,196 @@ int logarithm(int n){
 }
 
 /**
- * kargeradjm: Executes karger's contraction algorithm the necessary number of
- * times to compute the minimum cut for the graph represented with an adjacency
- * matrix
+ *  createauxlist: creates an auxiliary list of integer lists with size lists,
+ * also fills the first node of each list with the number of the list
  *
- * \param adj_matrix adjacency matrix for which the algorithm is being computed
+ * \param size number of integer lists to create
+ */
+void createauxlist(int size){
+    std::list<int> single_list;
+    for(int a=0; a < size; ++a){
+        single_list.push_back(a);
+        aux.push_back(single_list);
+        single_list.erase(single_list.begin(), single_list.end());
+    }
+}
+
+/**
+ *  generatetworandom: generates two different random numbers
+ *
+ *  \param i the first random number
+ *  \param j the second random number
+ *  \param n the possible range of the generated numbers, from 0 to n-1
+ */
+void generatetworandom(int* i, int* j, int n){
+    *i = rand() % n;
+    do{
+        *j = rand() % n;
+    }while(*i == *j);
+}
+
+/**
+ *  getlist: returns pointer to integer list j of the nested list
+ *
+ *  \param j the list number of the list being returned
+ */
+std::list<int>& getlist(int j){
+    std::list<std::list<int> >::iterator it;
+    it = aux.begin();
+    advance(it, j);
+    return *it;
+}
+
+/**
+ *  joinsets: Joins two sets of nodes
+ *
+ *  \param i first set of nodes number
+ *  \param j second set of nodes number
+ */
+void joinsets(int i, int j){
+    std::list<std::list<int>>::iterator it1;
+    std::list<std::list<int>>::iterator it2;
+    int min, max;
+    if(i > j){
+        min = j;
+        max = i;
+    }
+    it1 = aux.begin();
+    advance(it1, i);
+    it2 = aux.begin();
+    advance(it2, j);
+    (*it1).merge(*it2);
+    aux.erase(it2);
+}
+
+/**
+ *  countedgescsr: returns the count of edges on a given cut
+ * 
+ *  \param csr graph representation for which the size of min cut is being computed
+ */
+int countedgescsr(CSRGraph* csr){
+    int ret=0;
+    std::list<std::list<int>>::iterator it;
+    std::list<int>::iterator it1, it2;
+    for(it1 = (*(aux.begin())).begin(); it1 != (*(aux.begin())).end(); ++it1){
+        it = aux.begin();
+        advance(it, 1);
+        for(it2 = (*it).begin(); it2 != (*it).end(); ++it2){
+            if(csr->isAdjacent(*it1, *it2) == 1)
+                ret = ret + 1;
+        }
+    }
+    return ret;
+}
+
+
+/**
+ *  contractcsr: implementation of karger's contraction algorithm for a csr and
+ * computation of the mincut size
+ *
+ *  \param csr graph to contract and obtain the mincut size
+ */
+int contractcsr(CSRGraph* csr){
+    int i, j;
+    int vert = csr->getV();
+    int size = vert;
+    int ret;
+    createauxlist(size);
+    while(vert > 2){
+        generatetworandom(&i, &j, vert);
+        std::list<int>::iterator it;
+        std::list<int>& ilist = getlist(i);
+        for(it = ilist.begin(); it != ilist.end(); ++it){
+            if(csr->findAdjacent(*it, getlist(j))){
+                joinsets(i, j);
+                vert = vert - 1;
+                break;
+            }
+        }
+    }
+    ret = countedgescsr(csr);
+    aux.erase(aux.begin(), aux.end());
+    return ret;
+}
+
+/**
+ *  kargercsr: applies the contraction algorithm the necessary number of
+ * times to obtain a correct size of the minimum cut with certainty
+ *
+ *  \param csr graph for which the size of the minimum cut is being computed
+ */
+int kargercsr(CSRGraph* csr){
+    int n = csr->getV();
+    long long int nruns = n*n*logarithm(n);
+    int i = 0;
+    int result = 0;
+    int ret;
+    while(i < nruns){
+        i = i + 1;
+        result = contractcsr(csr);
+        if(i==1 || result < ret)
+            ret = result;
+        //std::cout << "\nret is on: " << ret << "\n";
+    }
+    return ret;
+}
+
+/**
+ *  countedgesadjm: returns the count of edges on a given cut
+ * 
+ *  \param adj_matrix graph representation for which the size of min cut is being computed
+ */
+int countedgesadjm(AdjMatrix* adj_matrix){
+    int ret=0;
+    std::list<std::list<int>>::iterator it;
+    std::list<int>::iterator it1, it2;
+    for(it1 = (*(aux.begin())).begin(); it1 != (*(aux.begin())).end(); ++it1){
+        it = aux.begin();
+        advance(it, 1);
+        for(it2 = (*it).begin(); it2 != (*it).end(); ++it2){
+            if(adj_matrix->isAdjacent(*it1, *it2) == 1)
+                ret = ret + 1;
+        }
+    }
+    return ret;
+}
+
+/**
+ *  contractadjm: implementation of karger's contraction algorithm for a csr and
+ * computation of the mincut size
+ *
+ *  \param adj_matrix graph to contract and obtain the mincut size
+ */
+int contractadjm(AdjMatrix* adj_matrix){
+    int i, j;
+    int vert = adj_matrix->getV();
+    int size = vert;
+    int ret;
+    AdjMatrix* copy = new AdjMatrix(adj_matrix->getV());
+    copy->Copyadjm(adj_matrix);
+    createauxlist(size);
+    while(vert > 2){
+        generatetworandom(&i, &j, vert);
+        std::list<int>& ilist = getlist(i);
+        std::list<int>& jlist = getlist(j);
+        if(copy->isAdjacent(*(ilist.begin()), *(jlist.begin()))){
+            copy->ContractEdge(*(ilist.begin()), *(jlist.begin()));
+            joinsets(i, j);
+            vert = vert - 1;
+        }
+    }
+    delete copy;
+    ret = countedgesadjm(adj_matrix);
+    aux.erase(aux.begin(), aux.end());
+    return ret;
+}
+
+/**
+ *  kargeradjm: applies the contraction algorithm the necessary number of
+ * times to obtain a correct size of the minimum cut with certainty
+ *
+ *  \param adj_matrix graph for which the size of the minimum cut is being
+ * computed
  */
 int kargeradjm(AdjMatrix* adj_matrix){
     int n = adj_matrix->getV();
@@ -188,45 +274,19 @@ int kargeradjm(AdjMatrix* adj_matrix){
         result = contractadjm(adj_matrix);
         if(i==1 || result < ret)
             ret = result;
-        std::cout << "ret is on: " << ret << "\n";
+        //std::cout << "\nret is on: " << ret << "\n";
     }
     return ret;
 }
 
-
 /**
- *
+ *  countedgesadjl: returns the count of edges on a given cut
+ * 
+ *  \param adj_list graph representation for which the size of min cut is being computed
  */
-int contractadjl(AdjList* adj_list){
-    int i, j;
-    int vert = adj_list->getV();
-    int size = vert;
-    int ret = 0;
-    IntList* adjl = new IntList[adj_list->getV()];
-    adj_list->copyadjlist(adjl);
-    std::list<std::list<int> > aux;
-    std::list<int> single_list;
+int countedgesadjl(AdjList* adj_list){
+    int ret=0;
     std::list<std::list<int>>::iterator it;
-    for(int a=0; a < size; ++a){
-        single_list.push_back(a);
-        aux.push_back(single_list);
-        single_list.erase(single_list.begin(), single_list.end());
-    }
-    while(vert > 2){
-        i = rand() % vert;
-        do{
-            j = rand() % vert;
-        }while(j == i);
-        if(adjl[i].existsNode(j)){
-            adjl[i].deleteNode(j);
-            adjl[j].deleteNode(i);
-            mergevertadjl(adjl, &aux, i, j, size, vert);
-            vert = vert - 1;
-        }
-        else{
-            continue;
-        }
-    }
     std::list<int>::iterator it1, it2;
     for(it1 = (*(aux.begin())).begin(); it1 != (*(aux.begin())).end(); ++it1){
         it = aux.begin();
@@ -235,35 +295,46 @@ int contractadjl(AdjList* adj_list){
             if(adj_list->isAdjacent(*it1, *it2) == 1)
                 ret = ret + 1;
         }
-        
     }
-    aux.erase(aux.begin(), aux.end());
-    delete[] adjl;
     return ret;
 }
 
-void mergevertadjl(IntList* adjl, std::list<std::list<int> > *aux, int i, int j, int size, int vert){
-    std::list<std::list<int>>::iterator it1;
-    std::list<std::list<int>>::iterator it2;
-    int ajuda;
-
-    if(i > j){
-        ajuda = i;
-        i = j;
-        j = ajuda;
+/**
+ *  contractadjl: implementation of karger's contraction algorithm for a csr and
+ * computation of the mincut size
+ *
+ *  \param adj_list graph to contract and obtain the mincut size
+ */
+int contractadjl(AdjList* adj_list){
+    int i, j;
+    int vert = adj_list->getV();
+    int size = vert;
+    int ret;
+    createauxlist(size);
+    while(vert > 2){
+        generatetworandom(&i, &j, vert);
+        std::list<int>::iterator it;
+        std::list<int>& ilist = getlist(i);
+        for(it = ilist.begin(); it != ilist.end(); ++it){
+            if(adj_list->findAdjacent(*it, getlist(j))){
+                joinsets(i, j);
+                vert = vert - 1;
+                break;
+            }
+        }
     }
-    adjl[j].mergeLists(&adjl[i]);
-    adjl[j].deleteAllNodes();
-    it1 = (*aux).begin();
-    advance(it1, i);
-    it2 = (*aux).begin();
-    advance(it2, j);
-    (*it1).merge(*it2);
-    (*aux).erase(it2);
+    ret = countedgesadjl(adj_list);
+    aux.erase(aux.begin(), aux.end());
+    return ret;
 }
 
-
-
+/**
+ *  kargeradjl: applies the contraction algorithm the necessary number of
+ * times to obtain a correct size of the minimum cut with certainty
+ *
+ *  \param adj_list graph for which the size of the minimum cut is being
+ * computed
+ */
 int kargeradjl(AdjList* adj_list){
     int n = adj_list->getV();
     long long int nruns = n*n*logarithm(n);
@@ -275,7 +346,7 @@ int kargeradjl(AdjList* adj_list){
         result = contractadjl(adj_list);
         if(i==1 || result < ret)
             ret = result;
-        std::cout << "\nret is on: " << ret << "\n";
+        //std::cout << "\nret is on: " << ret << "\n";
     }
     return ret;
 }

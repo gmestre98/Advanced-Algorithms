@@ -2,7 +2,7 @@
  *
  * File Name: adj-list.hpp
  * Author:    Gonçalo Mestre & Pedro Reis
- * Last Modification: 21 May 2020
+ * Last Modification: 24 May 2020
  *
  * NAME
  *  adj-list - the creation of the class for the adjacency list
@@ -19,6 +19,7 @@
 #include <stdexcept>
 #include "graph.hpp"
 #include "intlist.hpp"
+#include <list>
 
 
 /**
@@ -37,8 +38,8 @@ public:
     void addEdge(int i, int j) noexcept (false);
     void Print();
     void SpecificPrint(int vertex);
-    void copyadjlist(IntList* adjl);
-    int isAdjacent(int, int);
+    int isAdjacent(int i, int j);
+    int findAdjacent(int i, std::list<int>& j) noexcept(false);
     ~AdjList();
 };
 #endif    
