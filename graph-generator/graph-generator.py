@@ -28,10 +28,10 @@ def generate_np_random_graph(number_of_nodes, probability, name):
 
 	file = open(file_name, 'w')
 
-	file.write(str(number_of_nodes) + "\n")
+	file.write(str(number_of_nodes))
 
 	for edge in graph.edges:
-		file.write(str(edge[0]) + " " + str(edge[1]) + "\n")
+		file.write("\n" + str(edge[0]) + " " + str(edge[1]))
 
 	file.close()
 

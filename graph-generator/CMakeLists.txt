@@ -1,3 +1,6 @@
+file(GLOB graph-generator-src "*.hpp" "*.cpp")
+add_library(graph-generator-lib ${graph-generator-src})
+
 set(RESULT -1)
 
 execute_process(COMMAND pip show networkx
