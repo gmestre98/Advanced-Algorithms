@@ -2,30 +2,49 @@
 #include "data-structures/adj-list.hpp"
 #include "data-structures/csr.hpp"
 #include "algorithms/karger.hpp"
-#include "graph-generator/graph-loader.hpp"
 
 int main() {
 	int  mincut1;
-	AdjMatrix* adj_matrix = new AdjMatrix(6);
+    srand(time(NULL));
+
+	AdjList* Paul = new AdjList(8);
+	Paul -> addEdge(0, 1);
+	Paul -> addEdge(0, 2);
+	Paul -> addEdge(0, 3);
+	Paul -> addEdge(1, 4);
+	Paul -> addEdge(1, 7);
+	Paul -> addEdge(2, 3);
+	Paul -> addEdge(2, 5);
+	Paul -> addEdge(3, 4);
+	Paul -> addEdge(3, 5);
+	Paul -> addEdge(4, 5);
+	Paul -> addEdge(4, 6);
+	Paul -> addEdge(5, 6);
+	Paul -> addEdge(6, 7);
+	mincut1 = kargeradjl(Paul);
+	std::cout << "\nMin Cut size: " << mincut1 << "\n";
+	delete Paul;
+
+	AdjMatrix* adj_matrix = new AdjMatrix(8);
+	adj_matrix -> addEdge(0, 1);
 	adj_matrix -> addEdge(0, 2);
 	adj_matrix -> addEdge(0, 3);
 	adj_matrix -> addEdge(1, 4);
-	adj_matrix -> addEdge(1, 5);
-	adj_matrix -> addEdge(1, 2);
+	adj_matrix -> addEdge(1, 7);
+	adj_matrix -> addEdge(2, 3);
+	adj_matrix -> addEdge(2, 5);
 	adj_matrix -> addEdge(3, 4);
-	adj_matrix -> print();
-	mincut1 = karger(adj_matrix);
+	adj_matrix -> addEdge(3, 5);
+	adj_matrix -> addEdge(4, 5);
+	adj_matrix -> addEdge(4, 6);
+	adj_matrix -> addEdge(5, 6);
+	adj_matrix -> addEdge(6, 7);
+	mincut1 = kargeradjm(adj_matrix);
 	std::cout << "\nMin Cut size: " << mincut1 << "\n";
-	adj_matrix -> print();
-
-	GraphLoader* graphLoader = new GraphLoader();
-	
-	while(graphLoader->hasMoreGraphs()) {
-		AdjMatrix* new_adj_matrix = graphLoader->loadNextGraphAsAdjMatrix();
-		std::cout << std::endl;
-		new_adj_matrix->print();
-		delete new_adj_matrix;
-	}
-	
-	delete graphLoader;
+	CSRGraph* csr = new CSRGraph(8);
+	csr -> ReadGraph(adj_matrix);
+    delete adj_matrix;
+	mincut1 = kargercsr(csr);
+	std::cout << "\nMin Cut size:" << mincut1 << "\n";
+	delete csr;
 }
