@@ -157,3 +157,4 @@ AdjMatrix::~AdjMatrix() {
 	free(_matrix);
 	setV(0);
 	setE(0);
+}
