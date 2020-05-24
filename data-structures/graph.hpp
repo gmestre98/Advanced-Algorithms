@@ -1,3 +1,18 @@
+/******************************************************************************
+ *
+ * File Name: graph.hpp
+ * Author:    Gonçalo Mestre & Pedro Reis
+ * Last Modification: 24 May 2020
+ *
+ * NAME
+ *  graph - creation of the object graph for the other graph representations to
+ * inherit
+ *
+ * DESCRIPTION
+ *  This file contains the declaration of the object of the graph and general
+ * object functions for the graph representations
+ *
+ *****************************************************************************/
 #ifndef GRAPH_H
 #define GRAPH_H
 
@@ -32,6 +47,5 @@ public:
         return e;
     }
 };
-
 
 #endif

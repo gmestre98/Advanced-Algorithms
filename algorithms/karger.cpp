@@ -15,6 +15,8 @@
  *****************************************************************************/
 #include "karger.hpp"
 
+std::list<std::list<int>> aux;
+
 /**
  * printNestedList: Function to print the used nested_lists
  * 

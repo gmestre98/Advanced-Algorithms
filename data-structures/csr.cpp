@@ -1,5 +1,25 @@
+/******************************************************************************
+ *
+ * File Name: csr.cpp
+ * Author:    Gonçalo Mestre & Pedro Reis
+ * Last Modification: 24 May 2020
+ *
+ * NAME
+ *  csr - creation of the object for the compressed sparse row
+ *
+ * DESCRIPTION
+ *  This file contains the declaration of all functions used for the object of 
+ * the compressed sparse row graph representation
+ *
+ *****************************************************************************/
 #include "csr.hpp"
 
+/**
+ * CSRGraph::CSRGraph: Compressed sparse row constructor to initialize the 
+ * graph
+ *
+ * \param size number of vertices in the graph
+ */
 CSRGraph::CSRGraph(int size) noexcept(false) {
     setV(size);
     setE(0);
@@ -16,6 +36,11 @@ CSRGraph::CSRGraph(int size) noexcept(false) {
 	}
 }
 
+/**
+ * CSRGraph::ReadGraph: Reads the graph into a CSR from the adjacency matrix
+ *
+ * \param adjm adjacency matrix object from where the graph is read
+ */
 void CSRGraph::ReadGraph(AdjMatrix* adjm) noexcept(false) {
     int mrows = getV();
     int mcols = getV();
@@ -62,6 +87,47 @@ void CSRGraph::ReadGraph(AdjMatrix* adjm) noexcept(false) {
     _offset[getV()] = count;
 }
 
+/**
+ * CSRGraph::isAdjacent: verifies if two nodes are adjacent
+ *
+ * \param i first node
+ * \param j second node
+ */
+int CSRGraph::isAdjacent(int i, int j) noexcept(false){
+    if(i < 0 || i >= getV() || j < 0 || j >= getV()){
+        throw std::range_error("The value of i or j is not correct!");
+    }
+    for(int a=_offset[i]; a < _offset[i+1]; ++a){
+        if(_ones[a] == j)
+            return 1;
+    }
+    return 0;
+}
+
+int CSRGraph::findAdjacent(int i, std::list<int>& j) noexcept(false){
+    std::list<int>::iterator it;
+
+    if(i < 0 || i >= getV()){
+        throw std::range_error("The value of i is not correct!");
+    }
+    for(it = j.begin(); it != j.end(); ++it){
+        if(*it < 0 || *it >= getV()){
+            throw std::range_error("The value of some j is not correct");
+        }
+    }
+    it = j.begin();
+    for(int a=_offset[i]; a<_offset[i+1]; ++a){
+        while(it != j.end() && *it < _ones[a])
+            ++it;
+        if(*it == _ones[a])
+            return 1;
+    }
+    return 0;
+}
+
+/**
+ * CSRGraph::Print: Prints the csr graph
+ */
 void CSRGraph::Print(){
 	for (int i = 0; i < getV(); ++i) {
         int count = 0;
@@ -78,9 +144,91 @@ void CSRGraph::Print(){
 	}
 }
 
+/**
+ * CSRGraph::~CSRGraph: Compressed sparse row destructor to destroy the 
+ * graph
+ */
 CSRGraph::~CSRGraph(){
     free(_ones);
     free(_offset);
     setV(0);
     setE(0);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * CSRGraph::isDefined: Verifies if the csr graph structure is already defined
+ *
+int CSRGraph::isDefined() noexcept(false){
+    if(_offset != nullptr && _ones != nullptr)
+        return 1;
+    return 0;
+}
+
+/**
+ * CSRGraph::getOffset: returns the offset array of the graph
+ *
+ * \param copy array being changed to a copy of the offset array
+ *
+void CSRGraph::getOffset(int* copy){
+    for(int i=0; i <= getV(); ++i)
+        copy[i] = _offset[i];
+}*/
+
+/**
+ * CSRGraph::getOnes: returns the ones array of the graph
+ *
+ * \param copy array being changed to a copy of the ones array
+ *
+void CSRGraph::getOnes(int* copy){
+    for(int i=0; i <= getE(); ++i)
+        copy[i] = _ones[i];
+}*/
+
+/**
+ * CSRGraph::CopyCSR: Copies an old csr graph to the current object
+ *
+ * \param old csr graph being copied
+ *
+void CopyCSR(CSRGraph* old) noexcept(false){
+    if(old->isDefined() == 0){
+        throw std::runtime_error("Old CSR is not defined");
+    }
+    if(old->getV() != getV()){
+        throw std::range_error("That is not a correct graph");
+    }
+    if(_ones != nullptr) {
+        throw std::runtime_error("CSR is already set!");
+    }
+    setE(old->getE());
+    originalE = old->getE();
+    _ones = (int*)malloc((old->getE())*sizeof(int));
+    old->getOffset(_offset);
+    old->getOnes(_ones);
+}*/
