@@ -2,6 +2,7 @@
 #include "data-structures/adj-list.hpp"
 #include "data-structures/csr.hpp"
 #include "algorithms/karger.hpp"
+#include "algorithms/fordfulkerson.hpp"
 
 int main() {
 	int  mincut1;
@@ -47,4 +48,17 @@ int main() {
 	mincut1 = kargercsr(csr);
 	std::cout << "\nMin Cut size:" << mincut1 << "\n";
 	delete csr;
+
+	AdjMatrix* m = new AdjMatrix(6);
+	m->addEdge(0, 1);
+	m->addEdge(0, 2);
+	m->addEdge(1, 2);
+	m->addEdge(1, 3);
+	m->addEdge(2, 4);
+	m->addEdge(3, 5);
+	m->addEdge(3, 4);
+	m->addEdge(4, 5);
+
+	int mc = fordfulkerson(m);
+	std::cout << "min cut e " << mc << std::endl;
 }

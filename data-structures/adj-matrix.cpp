@@ -66,6 +66,26 @@ void AdjMatrix::addEdge(int i, int j) throw () {
 }
 
 /**
+ * AdjMatrix::removeEdge: removes an edge from the adjacency matrix
+ * 
+ * \param i first node of the edge
+ * \param i scond node of the edge
+ */
+void AdjMatrix::removeEdge(int i, int j) {
+	if (i < 0 || j < 0) {
+		throw std::out_of_range("indexes below 0");
+	}
+
+	if (i >= getV() || j >= getV() ) {
+		throw std::out_of_range("indexes out of range");
+	}
+
+	_matrix[i * getV() + j] = false;
+	_matrix[j * getV() + i] = false;
+	decE();
+}
+
+/**
  *	AdjMatrix::print: prints the adjacency matrix
  */
 void AdjMatrix::print() {
@@ -144,10 +164,8 @@ void AdjMatrix::ContractEdge(int i, int j){
  *	\param i first node
  *	\param j second node
  */
-int AdjMatrix::isAdjacent(int i, int j){
-	if(_matrix[i * getV() + j] == true)
-		return 1;
-	return 0;
+bool AdjMatrix::isAdjacent(int i, int j){
+	return (_matrix[i * getV() + j] == true);
 }
 
 /**

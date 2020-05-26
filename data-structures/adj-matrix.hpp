@@ -36,11 +36,12 @@ public:
 	AdjMatrix(int size) throw ();
 
 	void addEdge(int i, int j) throw ();
+	void removeEdge(int i, int j) noexcept (false);
 	void print();
 	bool* getm();
 	void Copyadjm(AdjMatrix* old);
 	void ContractEdge(int i, int j);
-	int isAdjacent(int i, int j);
+	bool isAdjacent(int i, int j);
 	~AdjMatrix();
 };
 
