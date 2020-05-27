@@ -123,6 +123,34 @@ int IntList::findNodes(std::list<int>& j){
 }
 
 /**
+ *  size: returns the size of a list
+ */
+int IntList::size(){
+    int ret = 0;
+    _curr = _head;
+    while(_curr != nullptr){
+        _curr = _curr->next;
+        ret = ret + 1;
+    }
+    return ret;
+}
+
+/**
+ *  IntList::getAdjacentX:
+ *
+ *  \param x the position of the adjacent in that list
+ */
+int IntList::getAdjacentX(int x){
+    int count = 0;
+    _curr = _head;
+    while(_curr != nullptr && count != x){
+        _curr = _curr->next;
+        count = count + 1;
+    }
+    return _curr->value;
+}
+
+/**
  *  IntList::~IntList: integer list destructor to destroy the list
  */
 IntList::~IntList() {

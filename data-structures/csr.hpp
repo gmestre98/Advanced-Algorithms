@@ -39,6 +39,7 @@ public:
     int degree(int v);
     void RandomWedge(int v, struct wedge* w);
     int triangle(int a, int b, int c);
+    int SearchEdge(int e, int start, int end);
     void Print();
     ~CSRGraph();
 };

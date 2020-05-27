@@ -40,6 +40,9 @@ public:
     void SpecificPrint(int vertex);
     int isAdjacent(int i, int j);
     int findAdjacent(int i, std::list<int>& j) noexcept(false);
+    int degree(int v);
+    void RandomWedge(int v, struct wedge* w);
+    int triangle(int a, int b, int c);
     ~AdjList();
 };
 #endif    

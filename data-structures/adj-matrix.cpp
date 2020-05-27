@@ -169,6 +169,61 @@ bool AdjMatrix::isAdjacent(int i, int j){
 }
 
 /**
+ *	AdjMatrix::degree: returns the degree of a vertex
+ *
+ *	\param v the vertex
+ */
+int AdjMatrix::degree(int v){
+	int ret = 0;
+	for(int i=0; i < getV(); ++i){
+		if(_matrix[v*getV() + i] == true)
+			ret = ret + 1;
+	}
+	return ret;
+}
+
+/**
+ *  AdjMatrix::RandomWedge: returns a random wedge containing vertex v
+ *
+ *  \param v the node for which the random wedge is selected
+ */
+void AdjMatrix::RandomWedge(int v, struct wedge* w){
+    int size = degree(v);
+	int r = rand() % size;
+	int s;
+	int count = 0;
+    do{
+        s = rand() % size;
+    }while(s == r);
+	for(int i=0; i < getV(); ++i){
+		if(count == r)
+			w->b = i;
+		if(count == s)
+			w->c = i;
+		if(_matrix[v*getV() + i] == true){
+			count = count + 1;  
+		}
+		if(count > r && count > s)
+			break;
+	}
+	w->a = v;
+}
+
+/**
+ *  AdjMatrix::triangle: returns 1 if the wedge forms a triangle, 0
+ * otherwise
+ *
+ *  \param a first wedge node
+ *  \param b second wedge node
+ *  \param c third wedge node
+ */
+int AdjMatrix::triangle(int a, int b, int c){
+    if(isAdjacent(a, b) && isAdjacent(b, c) && isAdjacent(c, a))
+        return 1;
+    return 0;
+}
+
+/**
  *	AdjMatrix::~AdjMatrix: Adjacency matrix destructor to destroy the graph
  */
 AdjMatrix::~AdjMatrix() {

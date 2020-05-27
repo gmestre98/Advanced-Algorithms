@@ -17,7 +17,7 @@
 
 #ifndef UWEDGE_H
 #define UWEDGE_H
-
+#define SAMPSIZE 38005
 #include <math.h>
 #include "../data-structures/csr.hpp"
 #include "../data-structures/adj-matrix.hpp"
@@ -25,6 +25,12 @@
 
 int RandomNumber(int);
 int binarySearch(int, int*, int, int);
-double uwedgecsr(CSRGraph *);
+double uwedgecsr(CSRGraph*);
+double uwedgeadjm(AdjMatrix*);
+double uwedgeadjl(AdjList*);
+double uedgecsr(CSRGraph*);
+double uedgeadjm(AdjMatrix*);
+double uedgeadjl(AdjList*);
+
 
 #endif
