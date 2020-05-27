@@ -46,12 +46,14 @@ public:
     void decE (){
         --e;
     }
-    int getV (){
+    int getV () const {
         return v;
     }
     int getE (){
         return e;
     }
+
+    virtual bool isAdjacent(int i, int j) = 0;
 };
 
 #endif

@@ -1,6 +1,8 @@
 #include "fordfulkerson.hpp"
 
-bool hasMorePaths(AdjMatrix* residualGraph, int src, int sink, int parent[]) {
+std::function<int (int, int)> min = [](int a, int b) { return (a < b) ? a : b; };
+
+bool hasMorePaths(Graph* residualGraph, int src, int sink, int parent[]) {
 	bool visited[residualGraph->getV()];
 	memset(visited, 0, sizeof(visited));
 
@@ -31,8 +33,6 @@ int fordfulkerson(AdjMatrix* graph) {
 	int sink = graph->getV() - 1; // last vertice
 	int v, u;
 
-	std::function<int (int, int)> min = [](int a, int b) { return (a < b) ? a : b; };
-
 	AdjMatrix* residualGraph = new AdjMatrix(graph->getV());
 	residualGraph->Copyadjm(graph);
 
@@ -45,7 +45,7 @@ int fordfulkerson(AdjMatrix* graph) {
 
 		for (v = sink; v != src; v = parent[v]) {
 			u = parent[v];
-			flow = min(flow, residualGraph->isAdjacent(u, v));
+			flow = min(flow, residualGraph->isAdjacent(u, v)); 
 		}
 
 		for (v = sink; v != src; v = parent[v]) {
@@ -56,6 +56,21 @@ int fordfulkerson(AdjMatrix* graph) {
 		maxFlow += flow;
 	}
 
+	delete residualGraph;
 	return maxFlow;
 	
+}
+
+int fordfulkerson(AdjList* graph) {
+	int src = 0; // first vertice
+	int sink = graph->getV() - 1; // last vertice
+	int u, v;
+
+	AdjList* resiudalGraph = new AdjList(*graph);
+	resiudalGraph->addEdge(0, 5);
+
+	graph->Print();
+	resiudalGraph->Print();
+	delete resiudalGraph;
+	return 0;
 }

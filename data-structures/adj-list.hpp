@@ -33,12 +33,14 @@
  */
 class AdjList : public Graph{
     IntList* _adjlist = nullptr;
+    void copyAdjList(AdjList* other);
 public:
     AdjList(int size)  noexcept (false);
+    AdjList(const AdjList& object) noexcept (false);
     void addEdge(int i, int j) noexcept (false);
     void Print();
     void SpecificPrint(int vertex);
-    int isAdjacent(int i, int j);
+    bool isAdjacent(int i, int j);
     int findAdjacent(int i, std::list<int>& j) noexcept(false);
     int degree(int v);
     void RandomWedge(int v, struct wedge* w);

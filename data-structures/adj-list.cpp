@@ -36,6 +36,15 @@ AdjList::AdjList(int size) noexcept(false) {
 	}
 }
 
+AdjList::AdjList(const AdjList& other) noexcept (false) {
+	setV(other.getV());
+	_adjlist = new IntList[other.getV()];
+
+	for (int i = 0; i < other.getV(); ++i) {
+		other._adjlist[i].copy(&_adjlist[i]);
+	}
+}
+
 /**
  *	AdjList::addEdge: Adds an unweighted undirected edge to the graph
  *
@@ -94,10 +103,8 @@ void AdjList::SpecificPrint(int vertex) {
 /**
  *	AdjList::isAdjacent: verifies the existence of an edge
  */
-int AdjList::isAdjacent(int i, int j){
-	if(_adjlist[i].existsNode(j))
-		return 1;
-	return 0;
+bool AdjList::isAdjacent(int i, int j){
+	return (_adjlist[i].existsNode(j));
 }
 
 /**
