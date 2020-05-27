@@ -126,10 +126,14 @@ void joinsets(int i, int j){
         min = j;
         max = i;
     }
+    else{
+        min = i;
+        max = j;
+    }
     it1 = aux.begin();
-    advance(it1, i);
+    advance(it1, min);
     it2 = aux.begin();
-    advance(it2, j);
+    advance(it2, max);
     (*it1).merge(*it2);
     aux.erase(it2);
 }
@@ -168,6 +172,7 @@ int contractcsr(CSRGraph* csr){
     int ret;
     createauxlist(size);
     while(vert > 2){
+        // GARANTIR QUE ESTA ARESTA GERADA EXISTE
         generatetworandom(&i, &j, vert);
         std::list<int>::iterator it;
         std::list<int>& ilist = getlist(i);

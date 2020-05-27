@@ -18,6 +18,12 @@
 
 #include <iostream>
 
+struct wedge{
+    int a;
+    int b;
+    int c;
+};
+
 class Graph{
     int v, e;
 public:

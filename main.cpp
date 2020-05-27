@@ -2,12 +2,14 @@
 #include "data-structures/adj-list.hpp"
 #include "data-structures/csr.hpp"
 #include "algorithms/karger.hpp"
+#include "algorithms/uniformwedge.hpp"
 
 int main() {
-	int  mincut1;
+	int mincut1;
+	double clust;
     srand(time(NULL));
 
-	AdjList* Paul = new AdjList(8);
+	/*AdjList* Paul = new AdjList(8);
 	Paul -> addEdge(0, 1);
 	Paul -> addEdge(0, 2);
 	Paul -> addEdge(0, 3);
@@ -23,7 +25,7 @@ int main() {
 	Paul -> addEdge(6, 7);
 	mincut1 = kargeradjl(Paul);
 	std::cout << "\nMin Cut size: " << mincut1 << "\n";
-	delete Paul;
+	delete Paul;*/
 
 	AdjMatrix* adj_matrix = new AdjMatrix(8);
 	adj_matrix -> addEdge(0, 1);
@@ -39,12 +41,15 @@ int main() {
 	adj_matrix -> addEdge(4, 6);
 	adj_matrix -> addEdge(5, 6);
 	adj_matrix -> addEdge(6, 7);
-	mincut1 = kargeradjm(adj_matrix);
-	std::cout << "\nMin Cut size: " << mincut1 << "\n";
+	adj_matrix -> addEdge(4, 7);
+	/*mincut1 = kargeradjm(adj_matrix);
+	std::cout << "\nMin Cut size: " << mincut1 << "\n";*/
 	CSRGraph* csr = new CSRGraph(8);
 	csr -> ReadGraph(adj_matrix);
     delete adj_matrix;
-	mincut1 = kargercsr(csr);
-	std::cout << "\nMin Cut size:" << mincut1 << "\n";
+	/*mincut1 = kargercsr(csr);
+	std::cout << "\nMin Cut size:" << mincut1 << "\n";*/
+	clust = uwedgecsr(csr);
+	std::cout << "\nclust coeff:" << clust << "\n";
 	delete csr;
 }

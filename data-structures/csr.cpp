@@ -133,7 +133,49 @@ int CSRGraph::findAdjacent(int i, std::list<int>& j) noexcept(false){
 }
 
 /**
- * CSRGraph::Print: Prints the csr graph
+ *  CSRGraph::degree: returns the degree of a node
+ *
+ *  \param v the node
+ */
+int CSRGraph::degree(int v){
+    int d = _offset[v+1]-_offset[v];
+    return d;
+}
+
+/**
+ *  CSRGraph::RandomWedge(int v)
+ *
+ *  \param v the node for which the random wedge is selected
+ */
+void CSRGraph::RandomWedge(int v, struct wedge* w){
+    int size = _offset[v+1] - _offset[v];
+    int r = rand() % size;
+    int s;
+    do{
+        s = rand() % size;
+    }while(s == r);
+    w->a = v;
+    w->b = _ones[_offset[v] + r];
+    w->c = _ones[_offset[v] + s];
+}
+
+/**
+ *  CSRGraph::triangle: returns 1 if the wedge forms a triangle, 0
+ * otherwise
+ *
+ *  \param a first wedge node
+ *  \param b second wedge node
+ *  \param c third wedge node
+ */
+int CSRGraph::triangle(int a, int b, int c){
+    if(isAdjacent(a, b) && isAdjacent(b, c) && isAdjacent(c, a))
+        return 1;
+    
+    return 0;
+}
+
+/**
+ *  CSRGraph::Print: Prints the csr graph
  */
 void CSRGraph::Print(){
 	for (int i = 0; i < getV(); ++i) {

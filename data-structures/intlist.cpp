@@ -119,8 +119,7 @@ int IntList::findNodes(std::list<int>& j){
             return 1;
         _curr = _curr->next;
     }
-
-
+    return 0;
 }
 
 /**

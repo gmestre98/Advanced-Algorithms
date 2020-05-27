@@ -18,6 +18,7 @@
 #include "graph.hpp"
 #include "adj-matrix.hpp"
 #include <list>
+#include <time.h>
 
 /**
  * Implementation of a compressed sparse row
@@ -35,6 +36,9 @@ public:
     void ReadGraph(AdjMatrix* adjm) noexcept(false);
     int isAdjacent(int i, int j) noexcept(false);
     int findAdjacent(int i, std::list<int>& j);
+    int degree(int v);
+    void RandomWedge(int v, struct wedge* w);
+    int triangle(int a, int b, int c);
     void Print();
     ~CSRGraph();
 };
