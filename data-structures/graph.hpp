@@ -52,6 +52,9 @@ public:
     int getE (){
         return e;
     }
+
+    virtual bool isAdjacent(int i, int j) = 0;
+    virtual Graph* clone() = 0;
 };
 
 #endif

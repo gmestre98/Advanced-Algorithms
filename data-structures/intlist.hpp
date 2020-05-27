@@ -16,11 +16,12 @@
 #define INTLIST_H
 
 #include <list>
+#include <iterator>
 
-struct node{
+typedef struct node{
     int value;
     node* next;
-};
+} node;
 
 
 class IntList{
@@ -28,15 +29,28 @@ private:
     struct node* _head;
     struct node* _curr;
     struct node* _aux;
+    struct node* _tail;
 
 public:
 
+    class IntListIterator : public std::iterator<std::forward_iterator_tag, node> {
+        node* _pointed;
+    public:
+        IntListIterator(node* pointed);
+        IntListIterator(const IntListIterator& other);
+        IntListIterator& operator++();
+        node* operator*();
+    };
+
     IntList();
+    IntList(const IntList& other);
     void addNode(int newNode) noexcept(false);
     int deleteNode(int old);
     int existsNode(int value);
     void printList();
     int findNodes(std::list<int>& j);
+    IntListIterator begin();
+    IntListIterator end();
     ~IntList();
 };
 

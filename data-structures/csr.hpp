@@ -34,12 +34,13 @@ class CSRGraph : public Graph{
 public:
     CSRGraph(int size) noexcept(false);
     void ReadGraph(AdjMatrix* adjm) noexcept(false);
-    int isAdjacent(int i, int j) noexcept(false);
+    bool isAdjacent(int i, int j) noexcept(false);
     int findAdjacent(int i, std::list<int>& j);
     int degree(int v);
     void RandomWedge(int v, struct wedge* w);
     int triangle(int a, int b, int c);
     void Print();
+    virtual CSRGraph* clone() override;
     ~CSRGraph();
 };
 

@@ -3,7 +3,6 @@
 
 #include <climits>
 #include <functional>
-#include <stdio.h>
 #include <queue>
 #include <cstring>
 
@@ -12,7 +11,7 @@
 #include "../data-structures/csr.hpp"
 
 int fordfulkerson(AdjMatrix* graph);
-//int fordfulkerson(AdjList* graph);
-//int fordfulkerson(CSRGraph* graph);
+int fordfulkerson(AdjList* graph);
+int fordfulkerson(CSRGraph* graph);
 
 #endif

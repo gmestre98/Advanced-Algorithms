@@ -169,6 +169,13 @@ bool AdjMatrix::isAdjacent(int i, int j){
 }
 
 /**
+ * AdjMatrix::clone: clones this object
+ */
+AdjMatrix* AdjMatrix::clone() {
+	return new AdjMatrix(*this);
+}
+
+/**
  *	AdjMatrix::~AdjMatrix: Adjacency matrix destructor to destroy the graph
  */
 AdjMatrix::~AdjMatrix() {

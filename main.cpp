@@ -54,7 +54,7 @@ int main() {
 	std::cout << "\nclust coeff:" << clust << "\n";
 	delete csr;
 
-	AdjMatrix* m = new AdjMatrix(6);
+	AdjList* m = new AdjList(6);
 	m->addEdge(0, 1);
 	m->addEdge(0, 2);
 	m->addEdge(1, 2);
@@ -64,6 +64,6 @@ int main() {
 	m->addEdge(3, 4);
 	m->addEdge(4, 5);
 
-	int mc = fordfulkerson(m);
-	std::cout << "min cut e " << mc << std::endl;
+	//int mc = fordfulkerson(m);
+	//std::cout << "min cut e " << mc << std::endl;
 }

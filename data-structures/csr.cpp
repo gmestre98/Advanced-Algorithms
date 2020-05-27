@@ -93,15 +93,15 @@ void CSRGraph::ReadGraph(AdjMatrix* adjm) noexcept(false) {
  * \param i first node
  * \param j second node
  */
-int CSRGraph::isAdjacent(int i, int j) noexcept(false){
+bool CSRGraph::isAdjacent(int i, int j) noexcept(false){
     if(i < 0 || i >= getV() || j < 0 || j >= getV()){
         throw std::range_error("The value of i or j is not correct!");
     }
     for(int a=_offset[i]; a < _offset[i+1]; ++a){
         if(_ones[a] == j)
-            return 1;
+            return true;
     }
-    return 0;
+    return false;
 }
 
 /**
@@ -191,6 +191,13 @@ void CSRGraph::Print(){
 		}
 		std::cout << std::endl;
 	}
+}
+
+/**
+ * CSRGraph::clone: clones this object
+ */
+CSRGraph* CSRGraph::clone() {
+    return new CSRGraph(*this);
 }
 
 /**

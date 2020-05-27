@@ -21,7 +21,11 @@
 /**
  *  IntList::IntList: Integer List constructor to initialize the integer list
  */
-IntList::IntList() : _head(nullptr), _curr(nullptr), _aux(nullptr) { }
+IntList::IntList() : _head(nullptr), _curr(nullptr), _aux(nullptr), _tail(nullptr) { }
+
+IntList::IntList(const IntList& other) {
+    // TODO
+}
 
 /**
  *  IntList::addNode: adds a new node to the integer list
@@ -43,7 +47,8 @@ void IntList::addNode(int newNode) noexcept(false) {
     }
     else{
         _head = a;
-    }
+    }    
+    _tail = a;
 }
 
 /**
@@ -70,6 +75,9 @@ int IntList::deleteNode(int old) {
         if(a == _head){
             _head = _head->next;
             _aux = nullptr;
+        }
+        if (a == _tail) {
+            _tail = _aux;
         }
         delete a;
         return 1;
@@ -122,6 +130,14 @@ int IntList::findNodes(std::list<int>& j){
     return 0;
 }
 
+IntList::IntListIterator IntList::begin() { 
+    return IntList::IntListIterator(_head);
+}
+
+IntList::IntListIterator IntList::end() {
+    return IntList::IntListIterator(_tail);
+}
+
 /**
  *  IntList::~IntList: integer list destructor to destroy the list
  */
@@ -133,6 +149,21 @@ IntList::~IntList() {
         _curr = _aux;
     }
     _head = nullptr;
+}
+
+IntList::IntListIterator::IntListIterator(node* pointed) : _pointed(pointed) { }
+
+IntList::IntListIterator::IntListIterator(const IntListIterator& other) {
+    _pointed = other._pointed;
+}
+
+IntList::IntListIterator& IntList::IntListIterator::operator++() {
+    _pointed = _pointed->next;
+    return *this;
+}
+
+node* IntList::IntListIterator::operator*() {
+    return _pointed;
 }
 
 

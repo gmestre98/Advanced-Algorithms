@@ -36,6 +36,10 @@ AdjList::AdjList(int size) noexcept(false) {
 	}
 }
 
+AdjList::AdjList(const AdjList& object) noexcept (false) {
+
+}
+
 /**
  *	AdjList::addEdge: Adds an unweighted undirected edge to the graph
  *
@@ -93,10 +97,8 @@ void AdjList::SpecificPrint(int vertex) {
 /**
  *	AdjList::isAdjacent: verifies the existence of an edge
  */
-int AdjList::isAdjacent(int i, int j){
-	if(_adjlist[i].existsNode(j))
-		return 1;
-	return 0;
+bool AdjList::isAdjacent(int i, int j){
+	return (_adjlist[i].existsNode(j));
 }
 
 /**
@@ -122,6 +124,17 @@ int AdjList::findAdjacent(int i, std::list<int>& j) noexcept(false){
     return ret;
 }
 
+/**
+ * AdjList::clone: clones this object [O(V^2)]
+ */
+AdjList* AdjList::clone() {
+	AdjList* adjList = new AdjList(getV());
+
+	for (int i = 0; i < getV(); ++i) {
+
+	}
+	return new AdjList(*this);
+}
 /**
  *	AdjList::~Adjlist: adjacency list destructor
  */
