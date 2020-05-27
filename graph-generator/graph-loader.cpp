@@ -95,6 +95,4 @@ CSRGraph* GraphLoader::loadNextGraphAsCSR() {
 	return csr;
 }
 
-GraphLoader::~GraphLoader() {
-	delete _fileNames;
-}
+GraphLoader::~GraphLoader() {}
