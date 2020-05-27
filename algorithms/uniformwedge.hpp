@@ -31,6 +31,9 @@ double uwedgeadjl(AdjList*);
 double uedgecsr(CSRGraph*);
 double uedgeadjm(AdjMatrix*);
 double uedgeadjl(AdjList*);
+double uvertexcsr(CSRGraph* csr);
+double uvertexadjm(AdjMatrix*);
+double uvertexadjl(AdjList*);
 
 
 #endif

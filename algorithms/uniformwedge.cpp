@@ -237,3 +237,91 @@ double uedgeadjl(AdjList* adjl){
     free(accedgecount);
     return ret;
 }
+
+/**
+ *  uvertexcsr: calculates and returns the clustering coefficient of a csr
+ * graph
+ *
+ *  \param csr the graph for which the clustering coefficient is computed
+ */
+double uvertexcsr(CSRGraph* csr){
+    int s1estimate = 0;
+    int r, index, d;
+    struct wedge w;
+    for(int i=0; i < SAMPSIZE; ++i){
+        r = RandomNumber(csr->getV());
+        if(csr->degree(r) == 1 || csr->degree(r) == 0)
+            s1estimate = s1estimate + 1;
+    }
+    s1estimate = csr->getV()*s1estimate/SAMPSIZE;
+    int sum = 0;
+    for(int i=0; i < SAMPSIZE; ++i){
+        do{
+            index = RandomNumber(csr->getV());
+            d = csr->degree(index);
+        }while(d <= 1);
+        csr->RandomWedge(index, &w);
+        sum = sum + csr->triangle(w.a, w.b, w.c)*d*(d-1)/2;
+    }
+    double ret = ((double)csr->getV() - (double)s1estimate)*(double)sum/(3*(double)SAMPSIZE);
+    return ret;
+}
+/**
+ *  uvertexadjm: calculates and returns the clustering coefficient of an
+ * adjacency matrix graph
+ *
+ *  \param adjm the graph for which the clustering coefficient is computed
+ */
+double uvertexadjm(AdjMatrix* adjm){
+    int totaledges = 0;
+    int s1estimate = 0;
+    int r, index, d;
+    struct wedge w;
+    for(int i=0; i < SAMPSIZE; ++i){
+        r = RandomNumber(adjm->getV());
+        if(adjm->degree(r) == 1)
+            s1estimate = s1estimate + 1;
+    }
+    s1estimate = adjm->getV()*s1estimate/SAMPSIZE;
+    int sum = 0;
+    for(int i=0; i < SAMPSIZE; ++i){
+        do{
+            index = RandomNumber(adjm->getV());
+            d = adjm->degree(index);
+        }while(d <= 1);
+        adjm->RandomWedge(index, &w);
+        sum = sum + adjm->triangle(w.a, w.b, w.c)*(d-1)*d/2;
+    }
+    double ret = ((double)adjm->getV() - (double)s1estimate)*(double)sum/(3*(double)SAMPSIZE);
+    return ret;
+}
+
+/**
+ *  uvertexadjl: calculates and returns the clustering coefficient of an
+ * adjacency list graph
+ *
+ *  \param adjl the graph for which the clustering coefficient is computed
+ */
+double uvertexadjl(AdjList* adjl){
+    int totaledges = 0;
+    int s1estimate = 0;
+    int r, index, d;
+    struct wedge w;
+    for(int i=0; i < SAMPSIZE; ++i){
+        r = RandomNumber(adjl->getV());
+        if(adjl->degree(r) == 1)
+            s1estimate = s1estimate + 1;
+    }
+    s1estimate = adjl->getV()*s1estimate/SAMPSIZE;
+    int sum = 0;
+    for(int i=0; i < SAMPSIZE; ++i){
+        do{
+            index = RandomNumber(adjl->getV());
+            d = adjl->degree(index);
+        }while(d <= 1);
+        adjl->RandomWedge(index, &w);
+        sum = sum + adjl->triangle(w.a, w.b, w.c)*(d-1)*d/2;
+    }
+    double ret = ((double)adjl->getV() - (double)s1estimate)*(double)sum/(3*(double)SAMPSIZE);
+    return ret;
+}

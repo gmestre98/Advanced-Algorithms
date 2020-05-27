@@ -31,6 +31,8 @@ int main() {
 	std::cout << "\nclust coeff:" << clust << "\n";
 	clust = uedgeadjl(Paul);
 	std::cout << "\nclust coeff:" << clust << "\n";
+	clust = uvertexadjl(Paul);
+	std::cout << "\nclust coeff:" << clust << "\n";
 	delete Paul;
 
 	AdjMatrix* adj_matrix = new AdjMatrix(8);
@@ -52,6 +54,8 @@ int main() {
 	std::cout << "\nclust coeff:" << clust << "\n";
 	clust = uedgeadjm(adj_matrix);
 	std::cout << "\nclust coeff:" << clust << "\n";
+	clust = uvertexadjm(adj_matrix);
+	std::cout << "\nclust coeff:" << clust << "\n";
 	/*mincut1 = kargeradjm(adj_matrix);
 	std::cout << "\nMin Cut size: " << mincut1 << "\n";*/
 	CSRGraph* csr = new CSRGraph(8);
@@ -62,6 +66,8 @@ int main() {
 	clust = uwedgecsr(csr);
 	std::cout << "\nclust coeff:" << clust << "\n";
 	clust = uedgecsr(csr);
+	std::cout << "\nclust coeff:" << clust << "\n";
+	clust = uvertexcsr(csr);
 	std::cout << "\nclust coeff:" << clust << "\n";
 	delete csr;
 
