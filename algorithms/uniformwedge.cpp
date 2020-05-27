@@ -66,6 +66,9 @@ double uwedgecsr(CSRGraph* csr){
     std::cout << "SOMA: " << sum << "\n";
     ret = (double)totalwedges*(double)sum/(double)(3*sampsize);
     std::cout << "RET: " << ret << "\n";
+
+    free(accwedgecount);
+    
     return ret;
 }
 
