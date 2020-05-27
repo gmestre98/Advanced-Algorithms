@@ -194,13 +194,6 @@ void CSRGraph::Print(){
 }
 
 /**
- * CSRGraph::clone: clones this object
- */
-CSRGraph* CSRGraph::clone() {
-    return new CSRGraph(*this);
-}
-
-/**
  * CSRGraph::~CSRGraph: Compressed sparse row destructor to destroy the 
  * graph
  */

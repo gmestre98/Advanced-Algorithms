@@ -46,7 +46,7 @@ public:
     void decE (){
         --e;
     }
-    int getV (){
+    int getV () const {
         return v;
     }
     int getE (){
@@ -54,7 +54,6 @@ public:
     }
 
     virtual bool isAdjacent(int i, int j) = 0;
-    virtual Graph* clone() = 0;
 };
 
 #endif

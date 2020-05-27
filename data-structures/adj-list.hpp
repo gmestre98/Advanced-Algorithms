@@ -33,6 +33,7 @@
  */
 class AdjList : public Graph{
     IntList* _adjlist = nullptr;
+    void copyAdjList(AdjList* other);
 public:
     AdjList(int size)  noexcept (false);
     AdjList(const AdjList& object) noexcept (false);
@@ -41,7 +42,6 @@ public:
     void SpecificPrint(int vertex);
     bool isAdjacent(int i, int j);
     int findAdjacent(int i, std::list<int>& j) noexcept(false);
-    virtual AdjList* clone() override;
     ~AdjList();
 };
 #endif    

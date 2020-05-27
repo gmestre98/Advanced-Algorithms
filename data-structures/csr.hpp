@@ -40,7 +40,6 @@ public:
     void RandomWedge(int v, struct wedge* w);
     int triangle(int a, int b, int c);
     void Print();
-    virtual CSRGraph* clone() override;
     ~CSRGraph();
 };
 

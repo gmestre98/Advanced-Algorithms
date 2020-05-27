@@ -23,8 +23,10 @@
  */
 IntList::IntList() : _head(nullptr), _curr(nullptr), _aux(nullptr), _tail(nullptr) { }
 
-IntList::IntList(const IntList& other) {
-    // TODO
+IntList::IntList(const IntList& other) : _head(nullptr), _curr(nullptr), _aux(nullptr), _tail(nullptr) {
+    for (IntListIterator it = other.begin(); it != other.end(); it++) {
+        addNode((*it)->value);
+    }
 }
 
 /**
@@ -48,7 +50,7 @@ void IntList::addNode(int newNode) noexcept(false) {
     else{
         _head = a;
     }    
-    _tail = a;
+    _tail = a->next;
 }
 
 /**
@@ -130,12 +132,18 @@ int IntList::findNodes(std::list<int>& j){
     return 0;
 }
 
-IntList::IntListIterator IntList::begin() { 
+IntList::IntListIterator IntList::begin() const { 
     return IntList::IntListIterator(_head);
 }
 
-IntList::IntListIterator IntList::end() {
+IntList::IntListIterator IntList::end() const {
     return IntList::IntListIterator(_tail);
+}
+
+void IntList::copy(IntList* newList) {
+    for (IntListIterator it = begin(); it != end(); it++) {
+        newList->addNode((*it)->value);
+    }
 }
 
 /**
@@ -158,8 +166,27 @@ IntList::IntListIterator::IntListIterator(const IntListIterator& other) {
 }
 
 IntList::IntListIterator& IntList::IntListIterator::operator++() {
-    _pointed = _pointed->next;
+    //_pointed = _pointed->next;
+    node* aux = _pointed->next;
+    _pointed = aux;
     return *this;
+}
+
+IntList::IntListIterator& IntList::IntListIterator::operator++(int) {
+    /*IntListIterator tmp(*this);
+    operator++();
+    return tmp;*/
+    node* aux = _pointed->next;
+    _pointed = aux;
+    return *this;
+}
+
+bool IntList::IntListIterator::operator==(const IntListIterator& other) {
+    return (_pointed == other._pointed);
+}
+
+bool IntList::IntListIterator::operator!=(const IntListIterator& other) {
+    return (_pointed != other._pointed);
 }
 
 node* IntList::IntListIterator::operator*() {

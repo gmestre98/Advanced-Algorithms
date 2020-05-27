@@ -42,7 +42,6 @@ public:
 	void Copyadjm(AdjMatrix* old);
 	void ContractEdge(int i, int j);
 	bool isAdjacent(int i, int j);
-	virtual AdjMatrix* clone() override;
 	~AdjMatrix();
 };
 

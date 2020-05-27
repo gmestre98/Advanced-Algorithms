@@ -36,8 +36,13 @@ AdjList::AdjList(int size) noexcept(false) {
 	}
 }
 
-AdjList::AdjList(const AdjList& object) noexcept (false) {
+AdjList::AdjList(const AdjList& other) noexcept (false) {
+	setV(other.getV());
+	_adjlist = new IntList[other.getV()];
 
+	for (int i = 0; i < other.getV(); ++i) {
+		other._adjlist[i].copy(&_adjlist[i]);
+	}
 }
 
 /**
@@ -124,17 +129,6 @@ int AdjList::findAdjacent(int i, std::list<int>& j) noexcept(false){
     return ret;
 }
 
-/**
- * AdjList::clone: clones this object [O(V^2)]
- */
-AdjList* AdjList::clone() {
-	AdjList* adjList = new AdjList(getV());
-
-	for (int i = 0; i < getV(); ++i) {
-
-	}
-	return new AdjList(*this);
-}
 /**
  *	AdjList::~Adjlist: adjacency list destructor
  */

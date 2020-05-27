@@ -39,6 +39,9 @@ public:
         IntListIterator(node* pointed);
         IntListIterator(const IntListIterator& other);
         IntListIterator& operator++();
+        IntListIterator& operator++(int);
+        bool operator==(const IntListIterator& other);
+        bool operator!=(const IntListIterator& other);
         node* operator*();
     };
 
@@ -49,8 +52,9 @@ public:
     int existsNode(int value);
     void printList();
     int findNodes(std::list<int>& j);
-    IntListIterator begin();
-    IntListIterator end();
+    IntListIterator begin() const;
+    IntListIterator end() const;
+    void copy(IntList* newList);
     ~IntList();
 };
 

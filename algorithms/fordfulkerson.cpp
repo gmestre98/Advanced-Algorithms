@@ -56,6 +56,7 @@ int fordfulkerson(AdjMatrix* graph) {
 		maxFlow += flow;
 	}
 
+	delete residualGraph;
 	return maxFlow;
 	
 }
@@ -70,5 +71,6 @@ int fordfulkerson(AdjList* graph) {
 
 	graph->Print();
 	resiudalGraph->Print();
+	delete resiudalGraph;
 	return 0;
 }

@@ -64,6 +64,8 @@ int main() {
 	m->addEdge(3, 4);
 	m->addEdge(4, 5);
 
-	//int mc = fordfulkerson(m);
+	int mc = fordfulkerson(m);
+
+	delete m;
 	//std::cout << "min cut e " << mc << std::endl;
 }
