@@ -1,13 +1,14 @@
 import os
 
 def get_range(range_xml):
-	if (len(range_xml) != 2):
-		raise SyntaxError("Tag: " + range_xml.tag + " must have strictly 2 elements: \'begin\' and \'end\'")
+	if (len(range_xml) != 3):
+		raise SyntaxError("Tag: " + range_xml.tag + " must have strictly 2 elements: \'begin\', \'end\' and \'step\'")
 	
 	begin = range_xml.find("begin").text
 	end = range_xml.find("end").text
+	step = range_xml.find("step").text
 
-	return tuple(range(int(begin), int(end)))
+	return tuple(range(int(begin), int(end), int(step)))
 
 def get_nodes(graph):
 	if (len(graph) != 2):

@@ -7,7 +7,7 @@ execute_process(COMMAND pip show networkx
 	RESULT_VARIABLE RESULT)
 
 if(RESULT EQUAL 1)
-	execute_process(COMMAND pip install --user networkx)
+	execute_process(COMMAND pip3 install --user networkx)
 else()
 	if(NOT (RESULT EQUAL 0))
 		message(FATAL_ERROR "Error when installing necessary libs. CMake aborted!")
