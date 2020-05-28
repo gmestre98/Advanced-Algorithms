@@ -130,6 +130,22 @@ int AdjList::findAdjacent(int i, std::list<int>& j) noexcept(false){
 }
 
 /**
+ * AdjList::removeEdge: removes an edge between u and v
+ */
+void AdjList::removeEdge(int u, int v) {
+	if (u < 0 || v < 0) {
+		throw std::range_error("indexes below 0");
+	}
+
+	if (u > getV() || v > getV()) {
+		throw std::range_error("indexes cannot be bigger than the size of the graph!");
+	}
+
+	if (!_adjlist[u].deleteNode(v)) std::cerr << "Cannot delete node " << u << "->" << v << std::endl;
+	if (!_adjlist[v].deleteNode(u)) std::cerr << "Cannot delete node " << v << "->" << u << std::endl;
+}
+
+/**
  *	AdjList::~Adjlist: adjacency list destructor
  */
 AdjList::~AdjList() {

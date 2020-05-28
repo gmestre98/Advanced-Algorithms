@@ -66,11 +66,60 @@ int fordfulkerson(AdjList* graph) {
 	int sink = graph->getV() - 1; // last vertice
 	int u, v;
 
-	AdjList* resiudalGraph = new AdjList(*graph);
-	resiudalGraph->addEdge(0, 5);
+	AdjList* residualGraph = new AdjList(*graph);
 
-	graph->Print();
-	resiudalGraph->Print();
-	delete resiudalGraph;
-	return 0;
+	int parent[graph->getV()];
+
+	int maxFlow = 0;
+
+	while(hasMorePaths(residualGraph, src, sink, parent)) {
+		int flow = INT_MAX;
+
+		for (v = sink; v != src; v = parent[v]) {
+			u = parent[v];
+			flow = min(flow, residualGraph->isAdjacent(u, v)); 
+		}
+
+		for (v = sink; v != src; v = parent[v]) {
+			u = parent[v];
+			residualGraph->removeEdge(u, v);
+		}
+
+		maxFlow += flow;
+	}
+	
+	delete residualGraph;
+	return maxFlow;
+}
+
+int fordfulkerson(CSRGraph* graph) {
+	int src = 0; // first vertice
+	int sink = graph->getV() - 1; // last vertice
+	int u, v;
+
+	CSRGraph* residualGraph = new CSRGraph(*graph);
+
+	int parent[graph->getV()];
+
+	int maxFlow = 0;
+
+	while(hasMorePaths(residualGraph, src, sink, parent)) {
+		int flow = INT_MAX;
+
+		for (v = sink; v != src; v = parent[v]) {
+			u = parent[v];
+
+			flow = min(flow, residualGraph->isAdjacent(u, v)); 
+		}
+
+		for (v = sink; v != src; v = parent[v]) {
+			u = parent[v];
+			residualGraph->removeEdge(u, v);
+		}
+
+		maxFlow += flow;
+	}
+	
+	delete residualGraph;
+	return maxFlow;
 }

@@ -42,6 +42,7 @@ public:
     void SpecificPrint(int vertex);
     bool isAdjacent(int i, int j);
     int findAdjacent(int i, std::list<int>& j) noexcept(false);
-    ~AdjList();
+    void removeEdge(int u, int v) noexcept (false);
+    virtual ~AdjList();
 };
 #endif    

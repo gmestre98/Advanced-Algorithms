@@ -43,13 +43,13 @@ public:
     void decV (){
         --v;
     }
-    void decE (){
+    void decE () {
         --e;
     }
     int getV () const {
         return v;
     }
-    int getE (){
+    int getE () const {
         return e;
     }
 

@@ -53,7 +53,7 @@ int main() {
 	clust = uwedgecsr(csr);
 	std::cout << "\nclust coeff:" << clust << "\n";
 	delete csr;
-
+/*
 	AdjList* m = new AdjList(6);
 	m->addEdge(0, 1);
 	m->addEdge(0, 2);
@@ -63,9 +63,24 @@ int main() {
 	m->addEdge(3, 5);
 	m->addEdge(3, 4);
 	m->addEdge(4, 5);
+*/
+	int mc;// = fordfulkerson(m);
 
-	int mc = fordfulkerson(m);
+	CSRGraph* a = new CSRGraph(6);
+	AdjMatrix* m = new AdjMatrix(6);
+	m->addEdge(0, 1);
+	m->addEdge(0, 2);
+	m->addEdge(1, 2);
+	m->addEdge(1, 3);
+	m->addEdge(2, 4);
+	m->addEdge(3, 5);
+	m->addEdge(3, 4);
+	m->addEdge(4, 5);
+	a->ReadGraph(m);
+
+	mc = fordfulkerson(a);
 
 	delete m;
-	//std::cout << "min cut e " << mc << std::endl;
+	delete a;
+	std::cout << "min cut e " << mc << std::endl;
 }

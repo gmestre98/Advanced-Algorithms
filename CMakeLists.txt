@@ -13,4 +13,4 @@ add_subdirectory(graph-generator)
 add_subdirectory(algorithms)
 
 add_executable(Project1 main.cpp)
-target_link_libraries(Project1 data-structures-lib algorithms-lib graph-generator-lib)
+target_link_libraries(Project1 algorithms-lib data-structures-lib  graph-generator-lib)

@@ -37,6 +37,23 @@ CSRGraph::CSRGraph(int size) noexcept(false) {
 }
 
 /**
+ * CSRGraph::CSRGraph: CSR Graph copy constructor
+ */
+CSRGraph::CSRGraph(const CSRGraph& other) {
+    setV(other.getV());
+    setE(other.getE());
+    
+    size_t sizeOnes = other.getE() * sizeof(int);
+    size_t sizeOffset = (other.getV() + 1) * sizeof(int);
+
+    _ones = (int*) malloc(sizeOnes);
+    _offset = (int*) malloc(sizeOffset);
+
+    memcpy(_ones, other._ones, sizeOnes);
+    memcpy(_offset, other._offset, sizeOffset);
+}
+
+/**
  * CSRGraph::ReadGraph: Reads the graph into a CSR from the adjacency matrix
  *
  * \param adjm adjacency matrix object from where the graph is read
@@ -191,6 +208,45 @@ void CSRGraph::Print(){
 		}
 		std::cout << std::endl;
 	}
+}
+
+/**
+ * 
+ */
+void CSRGraph::removeEdge(int u, int v) {
+    if (u < 0 || v < 0) {
+		throw std::out_of_range("indexes below 0");
+	}
+
+	if (u >= getV() || v >= getV() ) {
+		throw std::out_of_range("indexes out of range");
+	}
+
+    for(int i = _offset[u]; i < _offset[u + 1]; ++i) {
+        if (_ones[i] == v) {
+            _ones[i] = -1;
+        }
+    }
+    
+    for (int j = _offset[v]; j < _offset[v + 1]; ++j) {
+        if (_ones[j] == u) {
+            _ones[j] = -1;
+        }
+    }
+}
+
+bool CSRGraph::exists(int u, int v) {
+    if(u < 0 || u >= getV() || v < 0 || v >= getV()){
+        throw std::range_error("The value of i or j is not correct!");
+    }
+
+    for (int i = _offset[u]; i < _offset[u + 1]; ++i) {
+        if (_ones[i] == v) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 /**
