@@ -28,9 +28,9 @@ bool hasMorePaths(Graph* residualGraph, int src, int sink, int parent[]) {
 	return (visited[sink] == true);
 }
 
-int fordfulkerson(AdjMatrix* graph) {
-	int src = 0; // first vertice
-	int sink = graph->getV() - 1; // last vertice
+int fordfulkerson(AdjMatrix* graph, int src, int sink) {
+	//int src = 0; // first vertice
+	//int sink = graph->getV() - 1; // last vertice
 	int v, u;
 
 	AdjMatrix* residualGraph = new AdjMatrix(graph->getV());
@@ -54,6 +54,7 @@ int fordfulkerson(AdjMatrix* graph) {
 		}
 
 		maxFlow += flow;
+
 	}
 
 	delete residualGraph;
@@ -61,9 +62,26 @@ int fordfulkerson(AdjMatrix* graph) {
 	
 }
 
-int fordfulkerson(AdjList* graph) {
-	int src = 0; // first vertice
-	int sink = graph->getV() - 1; // last vertice
+int fordfulkerson(AdjMatrix* graph) {
+	int mincut = INT_MAX;
+	int maxFlow = 0;
+
+	for (int src = 0; src < graph->getV(); ++src) {
+		for (int sink = graph->getV() - 1; sink > 0; --sink) {
+			if (src != sink) {
+				maxFlow = fordfulkerson(graph, src, sink);
+			}
+
+			mincut = min(mincut, maxFlow);
+		}
+	}
+
+	return mincut;
+}
+
+int fordfulkerson(AdjList* graph, int src, int sink) {
+	//int src = 0; // first vertice
+	//int sink = graph->getV() - 1; // last vertice
 	int u, v;
 
 	AdjList* residualGraph = new AdjList(*graph);
@@ -92,12 +110,34 @@ int fordfulkerson(AdjList* graph) {
 	return maxFlow;
 }
 
-int fordfulkerson(CSRGraph* graph) {
-	int src = 0; // first vertice
-	int sink = graph->getV() - 1; // last vertice
+int fordfulkerson(AdjList* graph) {
+	int mincut = INT_MAX;
+	int maxFlow = 0;
+
+	for (int src = 0; src < graph->getV(); ++src) {
+		for (int sink = graph->getV() - 1; sink > 0; --sink) {
+			if (src != sink) {
+				maxFlow = fordfulkerson(graph, src, sink);
+			}
+
+			mincut = min(mincut, maxFlow);
+		}
+	}
+
+	return mincut;
+}
+
+int fordfulkerson(CSRGraph* graph, int src, int sink) {
+	//int src = 0; // first vertice
+	//int sink = graph->getV() - 1; // last vertice
 	int u, v;
+	std::cout << std::endl;
+	graph->Print();
 
 	CSRGraph* residualGraph = new CSRGraph(*graph);
+	
+		std::cout << std::endl;
+		residualGraph->Print();
 
 	int parent[graph->getV()];
 
@@ -119,7 +159,24 @@ int fordfulkerson(CSRGraph* graph) {
 
 		maxFlow += flow;
 	}
-	
+
 	delete residualGraph;
 	return maxFlow;
+}
+
+int fordfulkerson(CSRGraph* graph) {
+	int mincut = INT_MAX;
+	int maxFlow = 0;
+
+	for (int src = 0; src < graph->getV(); ++src) {
+		for (int sink = graph->getV() - 1; sink > 0; --sink) {
+			if (src != sink) {
+				maxFlow = fordfulkerson(graph, src, sink);
+			}
+
+			mincut = min(mincut, maxFlow);
+		}
+	}
+
+	return mincut;
 }

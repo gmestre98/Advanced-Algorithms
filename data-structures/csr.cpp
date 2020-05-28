@@ -43,7 +43,7 @@ CSRGraph::CSRGraph(const CSRGraph& other) {
     setV(other.getV());
     setE(other.getE());
     
-    size_t sizeOnes = other.getE() * sizeof(int);
+    size_t sizeOnes = (2 * other.getE()) * sizeof(int);
     size_t sizeOffset = (other.getV() + 1) * sizeof(int);
 
     _ones = (int*) malloc(sizeOnes);

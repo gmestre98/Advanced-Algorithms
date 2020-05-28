@@ -1,3 +1,5 @@
+#include <climits>
+
 #include "data-structures/adj-matrix.hpp"
 #include "data-structures/adj-list.hpp"
 #include "data-structures/csr.hpp"
@@ -82,10 +84,10 @@ int main() {
 	m->addEdge(3, 4);
 	m->addEdge(4, 5);
 */
-	int mc;// = fordfulkerson(m);
+	
 
 	CSRGraph* a = new CSRGraph(6);
-	AdjMatrix* m = new AdjMatrix(6);
+	AdjList* m = new AdjList(6);
 	m->addEdge(0, 1);
 	m->addEdge(0, 2);
 	m->addEdge(1, 2);
@@ -94,9 +96,29 @@ int main() {
 	m->addEdge(3, 5);
 	m->addEdge(3, 4);
 	m->addEdge(4, 5);
-	a->ReadGraph(m);
+	//a->ReadGraph(m);
 
-	mc = fordfulkerson(a);
+	int mc = fordfulkerson(m); //INT_MAX;
+	/*int maxFlow = 0;// = fordfulkerson(m);
+	for (int src = 0; src < a->getV(); ++src) {
+		for (int sink = a->getV() - 1; sink > 0; --sink) {
+			std::cout << "przed ford fulkerson" << std::endl;
+			std::cout << "sink jest " << sink << std::endl;
+			std::cout << "src jest " << src << std::endl;
+
+			if (src != sink) {
+				maxFlow = fordfulkerson(a, src, sink);
+			}
+
+			
+			std::cout << "max flow jest " << mc << std::endl;
+			if (mc > maxFlow) {
+				mc = maxFlow;
+			}
+		}
+		std::cout << "czesc" << std::endl;
+	}*/
+	
 
 	delete m;
 	delete a;
