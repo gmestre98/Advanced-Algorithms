@@ -52,6 +52,8 @@ public:
     int existsNode(int value);
     void printList();
     int findNodes(std::list<int>& j);
+    int size();
+    int getAdjacentX(int x);
     IntListIterator begin() const;
     IntListIterator end() const;
     void copy(IntList* newList);

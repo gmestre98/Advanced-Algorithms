@@ -84,7 +84,7 @@ void CSRGraph::ReadGraph(AdjMatrix* adjm) noexcept(false) {
         }
     }
 
-    setE(count);
+    setE(count/2);
     _ones = (int*)malloc(count*sizeof(int));
 
 	if(_ones == nullptr){
@@ -160,7 +160,7 @@ int CSRGraph::degree(int v){
 }
 
 /**
- *  CSRGraph::RandomWedge(int v)
+ *  CSRGraph::RandomWedge: returns a random wedge containing vertex v
  *
  *  \param v the node for which the random wedge is selected
  */
@@ -192,13 +192,29 @@ int CSRGraph::triangle(int a, int b, int c){
 }
 
 /**
+ *  CSRGraph::SearchEdge: Performs binary search to find the vertex of an edge
+ *
+ *  \param e the edge
+ */
+int CSRGraph::SearchEdge(int e, int start, int end){
+    int m = start + ((end - start)/2);
+
+    if(_offset[m] <= e && _offset[m+1] > e)
+        return m;
+    if(_offset[m] > e)
+        return SearchEdge(e, start, m-1);
+    return SearchEdge(e, m+1, end);
+}
+
+
+/**
  *  CSRGraph::Print: Prints the csr graph
  */
 void CSRGraph::Print(){
 	for (int i = 0; i < getV(); ++i) {
         int count = 0;
 		for (int j = 0; j < getV(); ++j) {
-            if(count + _offset[i] < getE()  &&  _ones[count+_offset[i]] == j  && 
+            if(count + _offset[i] < (2*getE())  &&  _ones[count+_offset[i]] == j  && 
                 (count + _offset[i]) < _offset[i+1]){
                 std::cout << "1 ";
                 count = count + 1;

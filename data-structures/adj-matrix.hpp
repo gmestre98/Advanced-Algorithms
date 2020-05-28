@@ -42,6 +42,9 @@ public:
 	void Copyadjm(AdjMatrix* old);
 	void ContractEdge(int i, int j);
 	bool isAdjacent(int i, int j);
+	int degree(int v);
+	void RandomWedge(int v, struct wedge* w);
+	int triangle(int a, int b, int c);
 	virtual ~AdjMatrix();
 };
 

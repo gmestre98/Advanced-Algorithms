@@ -67,6 +67,7 @@ void AdjList::addEdge(int i, int j) noexcept (false) {
 	try {
 		_adjlist[i].addNode(j);
 		_adjlist[j].addNode(i);
+		incE();
 	} catch (std::exception& err) {
 		std::cerr << err.what() << std::endl;
 	}
@@ -143,6 +144,45 @@ void AdjList::removeEdge(int u, int v) {
 
 	if (!_adjlist[u].deleteNode(v)) std::cerr << "Cannot delete node " << u << "->" << v << std::endl;
 	if (!_adjlist[v].deleteNode(u)) std::cerr << "Cannot delete node " << v << "->" << u << std::endl;
+}
+/**
+ *	AdjList::degree: returns the degree of a vertex
+ *
+ *	\param v the vertex
+ */
+int AdjList::degree(int v){
+	return _adjlist[v].size();
+}
+
+/**
+ *  AdjList::RandomWedge: returns a random wedge containing vertex v
+ *
+ *  \param v the node for which the random wedge is selected
+ */
+void AdjList::RandomWedge(int v, struct wedge* w){
+    int size = degree(v);
+	int r = rand() % size;
+	int s;
+    do{
+        s = rand() % size;
+    }while(s == r);
+	w->a = v;
+	w->b = _adjlist[v].getAdjacentX(r);
+	w->c = _adjlist[v].getAdjacentX(s);
+}
+
+/**
+ *  AdjList::triangle: returns 1 if the wedge forms a triangle, 0
+ * otherwise
+ *
+ *  \param a first wedge node
+ *  \param b second wedge node
+ *  \param c third wedge node
+ */
+int AdjList::triangle(int a, int b, int c){
+    if(isAdjacent(a, b) && isAdjacent(b, c) && isAdjacent(c, a))
+        return 1;
+    return 0;
 }
 
 /**
