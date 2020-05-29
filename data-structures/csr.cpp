@@ -218,13 +218,9 @@ void CSRGraph::Print(){
 		for (int j = 0; j < getV(); ++j) {
             if(count + _offset[i] < (2*getE())  &&  _ones[count+_offset[i]] == j  && 
                 (count + _offset[i]) < _offset[i+1]){
-                std::cout << "1 ";
                 count = count + 1;
             }
-            else
-                std::cout << "0 ";
 		}
-		std::cout << std::endl;
 	}
 }
 

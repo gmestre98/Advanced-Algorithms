@@ -119,7 +119,9 @@ int fordfulkerson(AdjMatrix* graph) {
 				maxFlow = fordfulkerson(graph, src, sink);
 			}
 
-			mincut = min(mincut, maxFlow);
+			if (maxFlow != 0) {
+				mincut = min(mincut, maxFlow);
+			}
 		}
 	}
 
@@ -185,7 +187,9 @@ int fordfulkerson(AdjList* graph) {
 				maxFlow = fordfulkerson(graph, src, sink);
 			}
 
-			mincut = min(mincut, maxFlow);
+			if (maxFlow != 0) {
+				mincut = min(mincut, maxFlow);
+			}
 		}
 	}
 
@@ -207,14 +211,10 @@ int fordfulkerson(CSRGraph* graph, int src, int sink) {
 	//int src = 0; // first vertice
 	//int sink = graph->getV() - 1; // last vertice
 	int u, v;
-	std::cout << std::endl;
 	graph->Print();
 
 	CSRGraph* residualGraph = new CSRGraph(*graph);
 	
-		std::cout << std::endl;
-		residualGraph->Print();
-
 	int parent[graph->getV()];
 
 	int maxFlow = 0;
@@ -259,7 +259,9 @@ int fordfulkerson(CSRGraph* graph) {
 				maxFlow = fordfulkerson(graph, src, sink);
 			}
 
-			mincut = min(mincut, maxFlow);
+			if (maxFlow != 0) {
+				mincut = min(mincut, maxFlow);
+			}
 		}
 	}
 
