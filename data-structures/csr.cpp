@@ -38,12 +38,14 @@ CSRGraph::CSRGraph(int size) noexcept(false) {
 
 /**
  * CSRGraph::CSRGraph: CSR Graph copy constructor
+ * 
+ * \param other object to copy
  */
 CSRGraph::CSRGraph(const CSRGraph& other) {
     setV(other.getV());
     setE(other.getE());
     
-    size_t sizeOnes = other.getE() * sizeof(int);
+    size_t sizeOnes = (2 * other.getE()) * sizeof(int);
     size_t sizeOffset = (other.getV() + 1) * sizeof(int);
 
     _ones = (int*) malloc(sizeOnes);
@@ -227,7 +229,10 @@ void CSRGraph::Print(){
 }
 
 /**
+ * CSRGraph::removeEdge: Removes an edge between u and v
  * 
+ * \param u node
+ * \param v node
  */
 void CSRGraph::removeEdge(int u, int v) {
     if (u < 0 || v < 0) {
@@ -251,6 +256,14 @@ void CSRGraph::removeEdge(int u, int v) {
     }
 }
 
+/**
+ * CSRGraph::exists: Verify the existance of an edge from u to v
+ * 
+ * \param u node
+ * \param v node
+ * 
+ * \return true if exists an edge from u to v and false otherwise
+ */
 bool CSRGraph::exists(int u, int v) {
     if(u < 0 || u >= getV() || v < 0 || v >= getV()){
         throw std::range_error("The value of i or j is not correct!");

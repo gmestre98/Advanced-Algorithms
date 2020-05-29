@@ -36,6 +36,11 @@ AdjList::AdjList(int size) noexcept(false) {
 	}
 }
 
+/**
+ * AdjList::AdjList: Adjacency List copy constructor
+ * 
+ * \param other object to copy
+ */
 AdjList::AdjList(const AdjList& other) noexcept (false) {
 	setV(other.getV());
 	_adjlist = new IntList[other.getV()];
@@ -101,7 +106,10 @@ void AdjList::SpecificPrint(int vertex) {
 }
 
 /**
- *	AdjList::isAdjacent: verifies the existence of an edge
+ *	AdjList::isAdjacent: verifies the existence of an edge between i and j
+ * 
+ * \param i node
+ * \param j node
  */
 bool AdjList::isAdjacent(int i, int j){
 	return (_adjlist[i].existsNode(j));
@@ -132,6 +140,9 @@ int AdjList::findAdjacent(int i, std::list<int>& j) noexcept(false){
 
 /**
  * AdjList::removeEdge: removes an edge between u and v
+ * 
+ * \param u node
+ * \param v node
  */
 void AdjList::removeEdge(int u, int v) {
 	if (u < 0 || v < 0) {
@@ -142,9 +153,15 @@ void AdjList::removeEdge(int u, int v) {
 		throw std::range_error("indexes cannot be bigger than the size of the graph!");
 	}
 
-	if (!_adjlist[u].deleteNode(v)) std::cerr << "Cannot delete node " << u << "->" << v << std::endl;
-	if (!_adjlist[v].deleteNode(u)) std::cerr << "Cannot delete node " << v << "->" << u << std::endl;
+	if (!_adjlist[u].deleteNode(v)) {
+		throw std::runtime_error("Cannot delete node!");
+	}
+
+	if (!_adjlist[v].deleteNode(u)) {
+		throw std::runtime_error("Cannot delete node!");
+	}
 }
+
 /**
  *	AdjList::degree: returns the degree of a vertex
  *
