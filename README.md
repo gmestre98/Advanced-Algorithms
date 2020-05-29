@@ -45,6 +45,9 @@ Each of the following lines corresponde to an egde, from ``u`` to ``v``, separet
 This file uses LF as end of line sequence.
 
 ## Execution
+Run "cmake -S . -B build"
+Then on folder build run "make"
+Then run "./Project1"
 
 ## Data Structures
   
