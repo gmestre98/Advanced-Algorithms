@@ -67,7 +67,7 @@ double uwedgecsr(CSRGraph* csr){
         csr->RandomWedge(index, &w);
         sum = sum + csr->triangle(w.a, w.b, w.c);
     }
-    ret = (double)totalwedges*(double)sum/(double)(3*SAMPSIZE);
+    ret = (double)sum/(double)(3*SAMPSIZE);
     free(accwedgecount);
     return ret;
 }
@@ -97,7 +97,7 @@ double uwedgeadjm(AdjMatrix* adjm){
         adjm->RandomWedge(index, &w);
         sum = sum + adjm->triangle(w.a, w.b, w.c);
     }
-    ret = (double)totalwedges*(double)sum/(double)(3*SAMPSIZE);
+    ret = (double)sum/(double)(3*SAMPSIZE);
     free(accwedgecount);
     return ret;
 }
@@ -127,7 +127,7 @@ double uwedgeadjl(AdjList* adjl){
         adjl->RandomWedge(index, &w);
         sum = sum + adjl->triangle(w.a, w.b, w.c);
     }
-    ret = (double)totalwedges*(double)sum/(double)(3*SAMPSIZE);
+    ret = (double)sum/(double)(3*SAMPSIZE);
     free(accwedgecount);
     return ret;
 }
@@ -142,6 +142,10 @@ double uedgecsr(CSRGraph* csr){
     int s1estimate = 0;
     int r, index, d;
     struct wedge w;
+    int totalwedges = 0;
+    for(int i=0; i < csr->getV(); ++i){
+        totalwedges = totalwedges + csr->degree(i)*(csr->degree(i)-1)/2;
+    }
     for(int i=0; i < SAMPSIZE; ++i){
         r = RandomNumber(csr->getV());
         if(csr->degree(r) == 1)
@@ -158,7 +162,7 @@ double uedgecsr(CSRGraph* csr){
         csr->RandomWedge(index, &w);
         sum = sum + csr->triangle(w.a, w.b, w.c)*(d-1);
     }
-    double ret = (2*((double)csr->getE()) - (double)s1estimate)*(double)sum/(6*(double)SAMPSIZE);
+    double ret = (2*((double)csr->getE()) - (double)s1estimate)*(double)sum/(6*(double)SAMPSIZE*(double)totalwedges);
     return ret;
 }
 
@@ -170,13 +174,16 @@ double uedgecsr(CSRGraph* csr){
  */
 double uedgeadjm(AdjMatrix* adjm){
     int totaledges = 0;
+    int totalwedges = 0;
     int s1estimate = 0;
     int r, index, d;
     struct wedge w;
     int *accedgecount = (int*)malloc((adjm->getV()+1)*sizeof(int));
     for(int v=0; v < adjm->getV(); ++v){
         accedgecount[v] = totaledges;
-        totaledges = totaledges + adjm->degree(v);
+        d = adjm->degree(v);
+        totaledges = totaledges + d;
+        totalwedges = totalwedges + d*(d-1)/2;
     }
     accedgecount[adjm->getV()] = totaledges; 
     for(int i=0; i < SAMPSIZE; ++i){
@@ -195,7 +202,7 @@ double uedgeadjm(AdjMatrix* adjm){
         adjm->RandomWedge(index, &w);
         sum = sum + adjm->triangle(w.a, w.b, w.c)*(d-1);
     }
-    double ret = (2*((double)adjm->getE()) - (double)s1estimate)*(double)sum/(6*(double)SAMPSIZE);
+    double ret = (2*((double)adjm->getE()) - (double)s1estimate)*(double)sum/(6*(double)SAMPSIZE*(double)totalwedges);
     free(accedgecount);
     return ret;
 }
@@ -207,6 +214,7 @@ double uedgeadjm(AdjMatrix* adjm){
  *  \param adjl the graph for which the clustering coefficient is computed
  */
 double uedgeadjl(AdjList* adjl){
+    int totalwedges = 0;
     int totaledges = 0;
     int s1estimate = 0;
     int r, index, d;
@@ -214,7 +222,9 @@ double uedgeadjl(AdjList* adjl){
     int *accedgecount = (int*)malloc((adjl->getV()+1)*sizeof(int));
     for(int v=0; v < adjl->getV(); ++v){
         accedgecount[v] = totaledges;
-        totaledges = totaledges + adjl->degree(v);
+        d = adjl->degree(v);
+        totaledges = totaledges + d;
+        totalwedges = totalwedges + d*(d-1)/2;
     }
     accedgecount[adjl->getV()] = totaledges; 
     for(int i=0; i < SAMPSIZE; ++i){
@@ -233,7 +243,7 @@ double uedgeadjl(AdjList* adjl){
         adjl->RandomWedge(index, &w);
         sum = sum + adjl->triangle(w.a, w.b, w.c)*(d-1);
     }
-    double ret = (2*((double)adjl->getE()) - (double)s1estimate)*(double)sum/(6*(double)SAMPSIZE);
+    double ret = (2*((double)adjl->getE()) - (double)s1estimate)*(double)sum/(6*(double)SAMPSIZE*(double)totalwedges);
     free(accedgecount);
     return ret;
 }
@@ -246,8 +256,12 @@ double uedgeadjl(AdjList* adjl){
  */
 double uvertexcsr(CSRGraph* csr){
     int s1estimate = 0;
+    int totalwedges = 0;
     int r, index, d;
     struct wedge w;
+    for(int i=0; i < csr->getV(); ++i){
+        totalwedges = totalwedges + csr->degree(i)*(csr->degree(i)-1)/2;
+    }
     for(int i=0; i < SAMPSIZE; ++i){
         r = RandomNumber(csr->getV());
         if(csr->degree(r) == 1 || csr->degree(r) == 0)
@@ -263,7 +277,7 @@ double uvertexcsr(CSRGraph* csr){
         csr->RandomWedge(index, &w);
         sum = sum + csr->triangle(w.a, w.b, w.c)*d*(d-1)/2;
     }
-    double ret = ((double)csr->getV() - (double)s1estimate)*(double)sum/(3*(double)SAMPSIZE);
+    double ret = ((double)csr->getV() - (double)s1estimate)*(double)sum/(3*(double)SAMPSIZE*(double)totalwedges);
     return ret;
 }
 /**
@@ -273,10 +287,14 @@ double uvertexcsr(CSRGraph* csr){
  *  \param adjm the graph for which the clustering coefficient is computed
  */
 double uvertexadjm(AdjMatrix* adjm){
-    int totaledges = 0;
     int s1estimate = 0;
+    int totalwedges = 0;
     int r, index, d;
     struct wedge w;
+    for(int v=0; v < adjm->getV(); ++v){
+        d = adjm->degree(v);
+        totalwedges = totalwedges + d*(d-1)/2;
+    }
     for(int i=0; i < SAMPSIZE; ++i){
         r = RandomNumber(adjm->getV());
         if(adjm->degree(r) == 1)
@@ -292,7 +310,7 @@ double uvertexadjm(AdjMatrix* adjm){
         adjm->RandomWedge(index, &w);
         sum = sum + adjm->triangle(w.a, w.b, w.c)*(d-1)*d/2;
     }
-    double ret = ((double)adjm->getV() - (double)s1estimate)*(double)sum/(3*(double)SAMPSIZE);
+    double ret = ((double)adjm->getV() - (double)s1estimate)*(double)sum/(3*(double)SAMPSIZE*(double)totalwedges);
     return ret;
 }
 
@@ -303,10 +321,14 @@ double uvertexadjm(AdjMatrix* adjm){
  *  \param adjl the graph for which the clustering coefficient is computed
  */
 double uvertexadjl(AdjList* adjl){
-    int totaledges = 0;
     int s1estimate = 0;
+    int totalwedges = 0;
     int r, index, d;
     struct wedge w;
+    for(int v=0; v < adjl->getV(); ++v){
+        d = adjl->degree(v);
+        totalwedges = totalwedges + d*(d-1)/2;
+    }
     for(int i=0; i < SAMPSIZE; ++i){
         r = RandomNumber(adjl->getV());
         if(adjl->degree(r) == 1)
@@ -322,6 +344,6 @@ double uvertexadjl(AdjList* adjl){
         adjl->RandomWedge(index, &w);
         sum = sum + adjl->triangle(w.a, w.b, w.c)*(d-1)*d/2;
     }
-    double ret = ((double)adjl->getV() - (double)s1estimate)*(double)sum/(3*(double)SAMPSIZE);
+    double ret = ((double)adjl->getV() - (double)s1estimate)*(double)sum/(3*(double)SAMPSIZE*(double)totalwedges);
     return ret;
 }
