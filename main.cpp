@@ -4,11 +4,19 @@
 #include "algorithms/karger.hpp"
 #include "algorithms/uniformwedge.hpp"
 #include "algorithms/fordfulkerson.hpp"
+#include "graph-generator/graph-loader.hpp"
 
 int main() {
 	int mincut1;
 	double clust;
     srand(time(NULL));
+
+	/*GraphLoader* gl = new GraphLoader();
+	CSRGraph* csr = gl->loadNextGraphAsCSR();
+	clust = uwedgecsr(csr);
+	std::cout << "clust: " << clust << "\n";
+	delete csr;*/
+
 
 	AdjList* Paul = new AdjList(8);
 	Paul -> addEdge(0, 1);
@@ -70,36 +78,4 @@ int main() {
 	clust = uvertexcsr(csr);
 	std::cout << "\nclust coeff:" << clust << "\n";
 	delete csr;
-
-	/*AdjMatrix* m = new AdjMatrix(6);
-	AdjList* m = new AdjList(6);
-	m->addEdge(0, 1);
-	m->addEdge(0, 2);
-	m->addEdge(1, 2);
-	m->addEdge(1, 3);
-	m->addEdge(2, 4);
-	m->addEdge(3, 5);
-	m->addEdge(3, 4);
-	m->addEdge(4, 5);
-*/
-	int mc;// = fordfulkerson(m);
-
-	CSRGraph* a = new CSRGraph(6);
-	AdjMatrix* m = new AdjMatrix(6);
-	m->addEdge(0, 1);
-	m->addEdge(0, 2);
-	m->addEdge(1, 2);
-	m->addEdge(1, 3);
-	m->addEdge(2, 4);
-	m->addEdge(3, 5);
-	m->addEdge(3, 4);
-	m->addEdge(4, 5);
-	a->ReadGraph(m);
-
-	mc = fordfulkerson(a);
-
-	delete m;
-	delete a;
-	std::cout << "min cut e " << mc << std::endl;
-
 }
